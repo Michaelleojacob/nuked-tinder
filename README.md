@@ -1,71 +1,15 @@
-# Getting Started with Create React App
+copy pasta
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# tinder-clone by Michael Jacob<br><a href="https://github.com/Michaelleojacob/waldo-with-backend" target="_blank">Repository</a> <br><a href="https://michaelleojacob-photo-tagging-app.web.app/" target="_blank">Live application</a>
 
-## Available Scripts
+# How to use:<br>Click on the >Live application< above. Select one of the two maps present and then hit `start`<br>Once in game, look for the characters from the landing page.<br>If you forget who you are looking for you can <br>Projects can also be created by clicking the `3/2/1` button at the top right on the nav.<br>Characters will be updated in firestore and relay that info back to the screen. The game will end once you have found 3/3 characters as per that map.
 
-In the project directory, you can run:
+# Built with:<br>React<br>Firebase<br>Firestore<br>javascript<br>webpack<br>node<br>html<br>css
 
-### `npm start`
+# High Priority on:<br>writting clean, effective and efficient code.<br>The UI looks nice (in my opinion). It's clear, minimal and easy to understand.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# Highlight features:<br>The biggest challenges I faced were learning firebase, and navigating through old versions to find current best use cases.<br>I also really struggled with getting the screen dimensions and how to handle different screen sizes<br>Once I learned how to handle firebase and screen ratios, the rest was smooth sailing.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Future additions:<br>More maps, more characters, more high scores!
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# tinder-clone
+# Get in touch!:<br> michaelleojacob@gmail.com<br><a href="https://www.linkedin.com/public-profile/in/michael-leo-jacob" target="_blank">Linkedin</a><br><a href="https://https://github.com/Michaelleojacob" target="_blank">Github</a>
