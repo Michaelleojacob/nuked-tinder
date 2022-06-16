@@ -19,7 +19,11 @@ const App = () => {
     <div>
       <div>hi from app</div>
       <div>
-        <button onClick={() => dispatch(signInUser())}>log in</button>
+        <button
+          className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+          onClick={() => dispatch(signInUser())}>
+          log in
+        </button>
       </div>
       <div>
         <button onClick={handleCheckUserData}>check user</button>
