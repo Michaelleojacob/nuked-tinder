@@ -17,6 +17,10 @@ const signIn = async () => {
   }
 };
 
+const signOutUser = async () => {
+  signOut(getAuth());
+};
+
 const LoginPage = () => {
   const nav = useNavigate();
 
