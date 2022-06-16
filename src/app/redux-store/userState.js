@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export const userStatus = createSlice({
-  name: 'counter',
-  initialUserObject: {
+export const userSlice = createSlice({
+  name: 'userStatus',
+  initialState: {
     loggedIn: false,
     firstName: '',
     lastName: '',
@@ -15,7 +15,7 @@ export const userStatus = createSlice({
     messagingToken: null,
   },
   reducers: {
-    signin: (state) => {
+    signIn: (state) => {
       state.loggedIn = true;
     },
     signOut: (state) => {
@@ -24,7 +24,17 @@ export const userStatus = createSlice({
     updateAge: (state, action) => {
       state.age = action.payload;
     },
+    updateTitle: (state, action) => {
+      state.title = action.payload;
+    },
+    updateLocation: (state, action) => {
+      state.location = action.payload;
+    },
   },
 });
 
-export default userStatus.reducers;
+export const currentUserStatus = (state) => state.userStatus.loggedIn;
+
+export const { signIn, signOut } = userSlice.actions;
+
+export default userSlice.reducer;

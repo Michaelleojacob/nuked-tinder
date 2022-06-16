@@ -1,15 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { counterSlice } from './reduxTest';
-
-// export const store = configureStore({
-//   reducer: {
-//     counter: counterSlice.reducer,
-//   },
-// });
+import { userSlice } from './userState';
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice.reducer,
+    userStatus: userSlice.reducer,
   },
 });
 
