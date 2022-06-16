@@ -1,28 +1,33 @@
-import AppRoutes from './routes';
-import { auth, db } from './firebase-utils/firebase';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect } from 'react';
+// import { Outlet } from 'react-router-dom';
+import { currentUserStatus, signInUser } from './redux-store/userState';
+import { useSelector, useDispatch } from 'react-redux';
+import store from './redux-store/redux-store';
 
 const App = () => {
-  const initFirebaseAuth = () => {
-    onAuthStateChanged(getAuth(), authStateObserver);
+  const checkUser = useSelector(currentUserStatus);
+  const dispatch = useDispatch();
+
+  const handleCheckUserData = () => {
+    console.log(checkUser);
   };
 
-  const authStateObserver = (user) => {
-    if (user) {
-    }
+  const handleCheckStore = () => {
+    console.log(store.getState());
   };
-
-  useEffect(() => {
-    initFirebaseAuth();
-  }, []);
-
-  const handleIncrement = () => {};
 
   return (
     <div>
-      <button onClick={handleIncrement}>increment</button>
-      <AppRoutes />
+      <div>hi from app</div>
+      <div>
+        <button onClick={() => dispatch(signInUser())}>log in</button>
+      </div>
+      <div>
+        <button onClick={handleCheckUserData}>check user</button>
+      </div>
+      <div>
+        <button onClick={handleCheckStore}>check store</button>
+      </div>
+      {/* <Outlet context={{ checkUserData }} /> */}
     </div>
   );
 };

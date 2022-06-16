@@ -5,13 +5,13 @@ import {
   signOut,
 } from 'firebase/auth';
 
-export const signInUser = async () => {
+export const authSignInUser = async () => {
   const provider = new GoogleAuthProvider();
   await signInWithPopup(getAuth(), provider);
 };
 
-export const signOutUser = async () => {
+export const authSignOutUser = async () => {
   await signOut(getAuth());
 };
 
-export const isUserSignIn = () => !!getAuth().currentUser;
+export const isUserSignedIn = () => !!getAuth().currentUser;

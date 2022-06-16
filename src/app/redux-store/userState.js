@@ -11,14 +11,13 @@ export const userSlice = createSlice({
     age: 0,
     title: null,
     location: null,
-
     messagingToken: null,
   },
   reducers: {
-    signIn: (state) => {
+    signInUser: (state) => {
       state.loggedIn = true;
     },
-    signOut: (state) => {
+    signOutUser: (state) => {
       state.loggedIn = false;
     },
     updateAge: (state, action) => {
@@ -30,11 +29,16 @@ export const userSlice = createSlice({
     updateLocation: (state, action) => {
       state.location = action.payload;
     },
+    logState: (state) => {
+      console.log(state);
+    },
   },
 });
 
+// export const checkUserData = (state) => state;
+
 export const currentUserStatus = (state) => state.userStatus.loggedIn;
 
-export const { signIn, signOut } = userSlice.actions;
+export const { signInUser, signOutUser, logState } = userSlice.actions;
 
 export default userSlice.reducer;
