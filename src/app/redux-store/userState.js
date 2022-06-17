@@ -6,7 +6,7 @@ import { isUserSignedIn } from './../firebase-utils/auth';
 export const userSlice = createSlice({
   name: 'userStatus',
   initialState: {
-    loggedIn: isUserSignedIn,
+    loggedIn: isUserSignedIn(),
     firstName: '',
     lastName: '',
     photos: [],
