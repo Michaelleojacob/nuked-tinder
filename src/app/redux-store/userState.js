@@ -32,9 +32,6 @@ export const userSlice = createSlice({
     updateLocation: (state, action) => {
       state.location = action.payload;
     },
-    logState: (state) => {
-      console.log(state);
-    },
     updateBasedOnAuth: (state, action) => {
       state.loggedIn = action.payload;
     },
@@ -43,7 +40,7 @@ export const userSlice = createSlice({
 
 // export const checkUserData = (state) => state;
 
-export const currentUserStatus = (state) => state.userStatus.loggedIn;
+export const currentUserStatus = (state) => ({ ...state.userStatus });
 
 export const { signInUser, signOutUser, logState, updateBasedOnAuth } =
   userSlice.actions;

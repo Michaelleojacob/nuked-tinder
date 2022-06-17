@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { signOutUser } from './../redux-store/userState';
 import { authSignOutUser } from './../firebase-utils/auth';
+import DevNav from './devNav';
 
 const LandingPage = () => {
   const nav = useNavigate();
@@ -15,6 +16,7 @@ const LandingPage = () => {
 
   return (
     <div>
+      <DevNav />
       <div>from landingPage</div>
       <button
         className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded'

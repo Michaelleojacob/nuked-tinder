@@ -42,24 +42,17 @@ const App = () => {
     return dispatch(updateBasedOnAuth(checkStatus));
   };
 
-  const superCheck = () => {
-    console.log(`checkUser: ${checkUser}, isUserSignedIn: ${isUserSignedIn()}`);
-  };
-
   useEffect(() => {
     initFirebaseAuth();
     const status = isUserSignedIn();
-    // if (status) {
-    //   return nav('/landing', { replace: true });
-    // }
+    if (status) {
+      return nav('/landing', { replace: true });
+    }
   });
 
   return (
     <div>
       <div>hi from app</div>
-      <div>
-        <button onClick={superCheck}>superCheck</button>
-      </div>
 
       {!checkUser ? (
         <div>
