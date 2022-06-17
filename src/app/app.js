@@ -8,6 +8,7 @@ import {
 import {
   authSignInUser,
   authSignOutUser,
+  getAuthUser,
   isUserSignedIn,
 } from './firebase-utils/auth';
 import { useSelector, useDispatch } from 'react-redux';
@@ -34,13 +35,11 @@ const App = () => {
     authSignOutUser();
   };
 
-  const initFirebaseAuth = () => onAuthStateChanged(getAuth(), test);
+  const initFirebaseAuth = () => onAuthStateChanged(getAuth(), updateStatus);
 
-  const test = (thing) => {
-    console.log(thing);
+  const updateStatus = (thing) => {
     const checkStatus = isUserSignedIn();
-    dispatch(updateBasedOnAuth(checkStatus));
-    return console.log(isUserSignedIn());
+    return dispatch(updateBasedOnAuth(checkStatus));
   };
 
   const superCheck = () => {
@@ -50,10 +49,9 @@ const App = () => {
   useEffect(() => {
     initFirebaseAuth();
     const status = isUserSignedIn();
-    if (status) {
-      nav('/landing', { replace: true });
-      console.log('hi');
-    }
+    // if (status) {
+    //   return nav('/landing', { replace: true });
+    // }
   });
 
   return (
@@ -84,7 +82,11 @@ const App = () => {
       <div>
         <button onClick={handleCheckStore}>check store</button>
       </div>
-      {/* <Outlet context={{ checkUserData }} /> */}
+      <div>
+        <button onClick={() => console.log(getAuthUser())}>
+          check getAuth
+        </button>
+      </div>
     </div>
   );
 };

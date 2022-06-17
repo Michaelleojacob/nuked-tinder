@@ -14,6 +14,7 @@ export const userSlice = createSlice({
     title: null,
     location: null,
     messagingToken: null,
+    fireBaseToken: null,
   },
   reducers: {
     signInUser: (state) => {

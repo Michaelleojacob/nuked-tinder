@@ -7,10 +7,10 @@ const LandingPage = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     dispatch(signOutUser);
-    authSignOutUser();
-    nav('/', { replace: true });
+    await authSignOutUser();
+    return nav('/', { replace: true });
   };
 
   return (
