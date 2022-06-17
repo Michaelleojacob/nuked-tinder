@@ -14,10 +14,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import store from './redux-store/redux-store';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const App = () => {
   const checkUser = useSelector(currentUserStatus);
   const dispatch = useDispatch();
+  const nav = useNavigate();
 
   const handleCheckStore = () => {
     console.log(store.getState());
@@ -48,8 +50,11 @@ const App = () => {
   useEffect(() => {
     initFirebaseAuth();
     const status = isUserSignedIn();
-    console.log(status);
-  }, []);
+    if (status) {
+      nav('/landing', { replace: true });
+      console.log('hi');
+    }
+  });
 
   return (
     <div>
