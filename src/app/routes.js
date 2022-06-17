@@ -1,6 +1,5 @@
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './app';
-import TestingComp from './components/testingComp';
 // eslint-disable-next-line
 import { app, db } from './firebase-utils/firebase';
 import LandingPage from './components/landingPage';
@@ -12,7 +11,9 @@ const AppRoutes = () => {
     onAuthStateChanged(getAuth(), handleLoggedInState);
 
   const handleLoggedInState = () => {
-    console.log('hi from routes.js');
+    getAuth().currentUser === null
+      ? console.log('signed out')
+      : console.log('signed in');
   };
 
   useEffect(() => {
@@ -25,7 +26,7 @@ const AppRoutes = () => {
         <Route path='/' element={<App />} />
         {/* <Route path='/' element={<LoginPage />} /> */}
         <Route path='/landing' element={<LandingPage />} />
-        <Route path='/*' element={<TestingComp />} />
+        <Route path='/' element={<App />} />
       </Routes>
     </HashRouter>
   );

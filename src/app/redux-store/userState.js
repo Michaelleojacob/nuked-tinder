@@ -18,10 +18,10 @@ export const userSlice = createSlice({
     fireBaseToken: null,
   },
   reducers: {
-    signInUser: (state) => {
+    signInLocalUser: (state) => {
       state.loggedIn = true;
     },
-    signOutUser: (state) => {
+    signOutLocalUser: (state) => {
       state.loggedIn = false;
     },
     updateAge: (state, action) => {
@@ -39,11 +39,13 @@ export const userSlice = createSlice({
   },
 });
 
-// export const checkUserData = (state) => state;
+export const checkLocalUser = (state) => ({ ...state.userStatus });
 
-export const currentUserStatus = (state) => ({ ...state.userStatus });
-
-export const { signInUser, signOutUser, logState, updateBasedOnAuth } =
-  userSlice.actions;
+export const {
+  signInLocalUser,
+  signOutLocalUser,
+  logState,
+  updateBasedOnAuth,
+} = userSlice.actions;
 
 export default userSlice.reducer;
