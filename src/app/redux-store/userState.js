@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { app, db } from './../firebase-utils/firebase';
+import { isUserSignedIn } from './../firebase-utils/auth';
 
 export const userSlice = createSlice({
   name: 'userStatus',
   initialState: {
-    loggedIn: false,
+    loggedIn: isUserSignedIn,
     firstName: '',
     lastName: '',
     photos: [],
@@ -32,6 +34,9 @@ export const userSlice = createSlice({
     logState: (state) => {
       console.log(state);
     },
+    updateBasedOnAuth: (state, action) => {
+      state.loggedIn = action.payload;
+    },
   },
 });
 
@@ -39,6 +44,7 @@ export const userSlice = createSlice({
 
 export const currentUserStatus = (state) => state.userStatus.loggedIn;
 
-export const { signInUser, signOutUser, logState } = userSlice.actions;
+export const { signInUser, signOutUser, logState, updateBasedOnAuth } =
+  userSlice.actions;
 
 export default userSlice.reducer;

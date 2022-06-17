@@ -3,6 +3,7 @@ import {
   currentUserStatus,
   signInUser,
   signOutUser,
+  updateBasedOnAuth,
 } from './redux-store/userState';
 import {
   authSignInUser,
@@ -12,16 +13,11 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import store from './redux-store/redux-store';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const App = () => {
   const checkUser = useSelector(currentUserStatus);
-  const [userState, setUserState] = useState(checkUser);
   const dispatch = useDispatch();
-
-  const handleCheckUserData = () => {
-    console.log(checkUser);
-  };
 
   const handleCheckStore = () => {
     console.log(store.getState());
@@ -36,31 +32,33 @@ const App = () => {
     authSignOutUser();
   };
 
-  const handleCheckLocalState = () => console.log(userState);
-
-  const handleCheckFirebaseAuth = () => console.log(isUserSignedIn());
-
   const initFirebaseAuth = () => onAuthStateChanged(getAuth(), test);
 
   const test = (thing) => {
+    console.log(thing);
+    const checkStatus = isUserSignedIn();
+    dispatch(updateBasedOnAuth(checkStatus));
     return console.log(isUserSignedIn());
   };
 
+  const superCheck = () => {
+    console.log(`checkUser: ${checkUser}, isUserSignedIn: ${isUserSignedIn()}`);
+  };
+
   useEffect(() => {
-    setUserState(isUserSignedIn());
     initFirebaseAuth();
+    const status = isUserSignedIn();
+    console.log(status);
   }, []);
 
   return (
     <div>
       <div>hi from app</div>
       <div>
-        <button onClick={handleCheckLocalState}>check local user state</button>
+        <button onClick={superCheck}>superCheck</button>
       </div>
-      <div>
-        <button onClick={handleCheckFirebaseAuth}>check firebase auth</button>
-      </div>
-      {!userState ? (
+
+      {!checkUser ? (
         <div>
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded'
@@ -78,9 +76,6 @@ const App = () => {
         </div>
       )}
 
-      <div>
-        <button onClick={handleCheckUserData}>check user</button>
-      </div>
       <div>
         <button onClick={handleCheckStore}>check store</button>
       </div>
