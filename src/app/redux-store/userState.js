@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+// eslint-disable-next-line
 import { app, db } from './../firebase-utils/firebase';
 import { isUserSignedIn } from './../firebase-utils/auth';
 

@@ -1,27 +1,47 @@
 import { getAuthUser } from './../firebase-utils/auth';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { currentUserStatus } from '../redux-store/userState';
+import { signInUser, signOutUser } from '../redux-store/userState';
+import { authSignInUser, authSignOutUser } from './../firebase-utils/auth';
 
 const DevNav = () => {
+  const dispatch = useDispatch();
   const checkLocalUser = useSelector(currentUserStatus);
+  const handleSignIn = () => {
+    dispatch(signInUser());
+    authSignInUser();
+  };
+  const handleSignOut = () => {
+    dispatch(signOutUser());
+    authSignOutUser();
+  };
   return (
     <div>
       <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1 p-1'
+        className='bg-orange-500 hover:bg-orange-700 text-white py-1 px-2 rounded m-1 p-1 border border-orange-700 rounded'
         onClick={() => console.log(getAuthUser())}>
         fb-auth
       </button>
       <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1 p-1'
+        className='bg-orange-500 hover:bg-orange-700 text-white py-1 px-2 rounded m-1 p-1 border border-orange-700 rounded'
         onClick={() => console.log(getAuthUser().currentUser)}>
         fb-currentUser
       </button>
       <button
-        className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-1 p-1'
+        className='bg-teal-500 hover:bg-teal-700 text-white py-1 px-2 rounded m-1 p-1 border border-teal-700 rounded'
         onClick={() => console.log(checkLocalUser)}>
         local user
       </button>
-      {/* <button onClick={}></button> */}
+      <button
+        className='bg-green-500 hover:bg-green-700 text-white py-1 px-2 m-1 p-1 border border-green-700 rounded'
+        onClick={handleSignIn}>
+        log in
+      </button>
+      <button
+        className='bg-red-500 hover:bg-red-700 text-white py-1 px-2 m-1 p-1 border border-red-700 rounded'
+        onClick={handleSignOut}>
+        log out
+      </button>
     </div>
   );
 };

@@ -17,14 +17,16 @@ const LandingPage = () => {
   return (
     <div>
       <DevNav />
-      <div>from landingPage</div>
+      <div className='m-1 p-1'>from landingPage</div>
       <button
-        className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded'
+        className='bg-green-500 p-1 m-1 rounded px-1.5 py-1.5'
         onClick={() => nav('/', { replace: true })}>
         back to App
       </button>
       <div>
-        <button className='bg-red-500 p-2 m-2' onClick={handleLogOut}>
+        <button
+          className='bg-red-500 p-1 m-1 rounded px-1.5 py-1.5'
+          onClick={handleLogOut}>
           log out
         </button>
       </div>
