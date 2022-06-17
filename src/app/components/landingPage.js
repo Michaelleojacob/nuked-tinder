@@ -1,19 +1,16 @@
-import { useNavigate } from 'react-router-dom';
 import DevNav from './devNav';
+import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
-  const nav = useNavigate();
-
   return (
     <div>
       <DevNav />
       <div className='m-1 p-1'>from landingPage</div>
-      <button
-        className='bg-green-500 p-1 m-1 rounded px-1.5 py-1.5'
-        onClick={() => nav('/', { replace: true })}>
-        back to App
-      </button>
-      <div></div>
+      <Link
+        className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'
+        to='/'>
+        App
+      </Link>
     </div>
   );
 };

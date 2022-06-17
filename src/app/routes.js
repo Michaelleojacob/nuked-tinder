@@ -15,7 +15,6 @@ const AppRoutes = () => {
     onAuthStateChanged(getAuth(), handleLoggedInState);
 
   const handleLoggedInState = () => {
-    console.log('this ran');
     dispatch(updateBasedOnAuth(isUserSignedIn()));
   };
 

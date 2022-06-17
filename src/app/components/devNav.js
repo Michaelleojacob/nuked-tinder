@@ -19,7 +19,6 @@ const DevNav = () => {
     dispatch(signOutLocalUser());
     authSignOutUser();
   };
-  console.log(isLocalUserSignedIn);
   return (
     <div>
       <button
@@ -37,8 +36,20 @@ const DevNav = () => {
         onClick={() => console.log(checkUser)}>
         local user
       </button>
-
-      <button
+      {!isLocalUserSignedIn ? (
+        <button
+          className='bg-green-500 hover:bg-green-700 text-white py-1 px-2 m-1 p-1 border border-green-700 rounded'
+          onClick={handleSignIn}>
+          log in
+        </button>
+      ) : (
+        <button
+          className='bg-red-500 hover:bg-red-700 text-white py-1 px-2 m-1 p-1 border border-red-700 rounded'
+          onClick={handleSignOut}>
+          log out
+        </button>
+      )}
+      {/* <button
         className='bg-green-500 hover:bg-green-700 text-white py-1 px-2 m-1 p-1 border border-green-700 rounded'
         onClick={handleSignIn}>
         log in
@@ -47,7 +58,7 @@ const DevNav = () => {
         className='bg-red-500 hover:bg-red-700 text-white py-1 px-2 m-1 p-1 border border-red-700 rounded'
         onClick={handleSignOut}>
         log out
-      </button>
+      </button> */}
     </div>
   );
 };
