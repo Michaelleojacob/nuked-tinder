@@ -1,7 +1,7 @@
-import { HashRouter, Routes, Route } from 'react-router-dom';
-import App from './app';
 // eslint-disable-next-line
 import { app, db } from './firebase-utils/firebase';
+import App from './app';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/landingPage';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
