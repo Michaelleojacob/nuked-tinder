@@ -24,9 +24,8 @@ const AppRoutes = () => {
     <HashRouter>
       <Routes>
         <Route path='/' element={<App />} />
-        {/* <Route path='/' element={<LoginPage />} /> */}
         <Route path='/landing' element={<LandingPage />} />
-        <Route path='/' element={<App />} />
+        <Route path='/*' element={<App />} />
       </Routes>
     </HashRouter>
   );

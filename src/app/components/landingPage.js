@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import DevNav from './devNav';
 
 const LandingPage = () => {
   const nav = useNavigate();
-  const dispatch = useDispatch();
 
   return (
     <div>
