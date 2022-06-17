@@ -36,16 +36,21 @@ export const userSlice = createSlice({
     updateBasedOnAuth: (state, action) => {
       state.loggedIn = action.payload;
     },
+    updateBasedOnFireBase: (state) => {
+      state.loggedIn = isUserSignedIn();
+    },
   },
 });
 
 export const checkLocalUser = (state) => ({ ...state.userStatus });
+export const checkLocalUserSignedIn = (state) => state.userStatus.loggedIn;
 
 export const {
   signInLocalUser,
   signOutLocalUser,
   logState,
   updateBasedOnAuth,
+  updateBasedOnFireBase,
 } = userSlice.actions;
 
 export default userSlice.reducer;

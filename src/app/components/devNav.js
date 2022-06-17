@@ -1,12 +1,16 @@
 import { getAuthUser } from './../firebase-utils/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkLocalUser } from '../redux-store/userState';
+import {
+  checkLocalUser,
+  checkLocalUserSignedIn,
+} from '../redux-store/userState';
 import { signInLocalUser, signOutLocalUser } from '../redux-store/userState';
 import { authSignInUser, authSignOutUser } from './../firebase-utils/auth';
 
 const DevNav = () => {
   const dispatch = useDispatch();
   const checkUser = useSelector(checkLocalUser);
+  const isLocalUserSignedIn = useSelector(checkLocalUserSignedIn);
   const handleSignIn = () => {
     dispatch(signInLocalUser());
     authSignInUser();
@@ -15,6 +19,7 @@ const DevNav = () => {
     dispatch(signOutLocalUser());
     authSignOutUser();
   };
+  console.log(isLocalUserSignedIn);
   return (
     <div>
       <button
@@ -32,6 +37,7 @@ const DevNav = () => {
         onClick={() => console.log(checkUser)}>
         local user
       </button>
+
       <button
         className='bg-green-500 hover:bg-green-700 text-white py-1 px-2 m-1 p-1 border border-green-700 rounded'
         onClick={handleSignIn}>

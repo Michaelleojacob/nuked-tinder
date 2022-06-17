@@ -5,15 +5,18 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/landingPage';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
+import { updateBasedOnAuth } from './redux-store/userState';
+import { isUserSignedIn } from './firebase-utils/auth';
+import { useDispatch } from 'react-redux';
 
 const AppRoutes = () => {
+  const dispatch = useDispatch();
   const initFirebaseAuth = () =>
     onAuthStateChanged(getAuth(), handleLoggedInState);
 
   const handleLoggedInState = () => {
-    getAuth().currentUser === null
-      ? console.log('signed out')
-      : console.log('signed in');
+    console.log('this ran');
+    dispatch(updateBasedOnAuth(isUserSignedIn()));
   };
 
   useEffect(() => {
