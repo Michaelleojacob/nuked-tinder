@@ -2,20 +2,15 @@ import { createSlice } from '@reduxjs/toolkit';
 // eslint-disable-next-line
 import { app, db } from './../firebase-utils/firebase';
 import { isUserSignedIn } from './../firebase-utils/auth';
+import newUserFactory from '../utils/defaultUserFactory';
+
+const newUser = newUserFactory();
 
 export const userSlice = createSlice({
   name: 'userStatus',
   initialState: {
     loggedIn: isUserSignedIn(),
-    firstName: '',
-    lastName: '',
-    photos: [],
-    usersLiked: [],
-    age: 0,
-    title: null,
-    location: null,
-    messagingToken: null,
-    fireBaseToken: null,
+    ...newUser,
   },
   reducers: {
     signInLocalUser: (state) => {

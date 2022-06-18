@@ -1,5 +1,6 @@
 import { db } from './firebase';
 import { doc, getDoc, setDoc, getDocs, collection } from 'firebase/firestore';
+import newUserFactory from '../utils/defaultUserFactory';
 
 export const getUser = async (uid) => {
   const userRef = doc(db, 'users', uid);
@@ -13,8 +14,9 @@ export const getAllUsers = async () => {
 
 export const createNewUser = async (user) => {
   try {
+    const newUser = newUserFactory(user.uid);
     await setDoc(doc(db, 'users', user.uid), {
-      email: user.email,
+      ...newUser,
     });
   } catch (e) {
     console.error(e);

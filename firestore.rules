@@ -14,7 +14,8 @@ service cloud.firestore {
     // Allow users to read, write, update documents that have the same ID as their user id
     match /users/{userId} {
         // Allow users to read their own profile (doc id same as user id)
-      allow read: if request.auth.uid == userId;
+      // allow read: if request.auth.uid == userId;
+      allow read;
 
       // Allow users to write / update their own profile as long as no "admin"
       // field is trying to be added or created - unless they are already an admin
