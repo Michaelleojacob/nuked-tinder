@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { checkLocalUserSignedIn } from '../redux-store/userState';
-import { authSignInUser, authSignOutUser } from '../firebase-utils/auth';
+import { authSignOutUser, signInWithExtraInfo } from '../firebase-utils/auth';
 
 const ToggleLoggedInLoggedOut = () => {
   const isLocalUserSignedIn = useSelector(checkLocalUserSignedIn);
@@ -9,7 +9,7 @@ const ToggleLoggedInLoggedOut = () => {
       {!isLocalUserSignedIn ? (
         <button
           className='bg-green-500 hover:bg-green-700 text-white py-1 px-2 m-1 p-1 border border-green-700 rounded'
-          onClick={() => authSignInUser()}>
+          onClick={() => signInWithExtraInfo()}>
           log in
         </button>
       ) : (
