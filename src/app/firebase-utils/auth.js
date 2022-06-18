@@ -48,8 +48,7 @@ export const signInWithExtraInfo = async () => {
   const info = getAdditionalUserInfo(res);
   authInfo = info;
   if (info.isNewUser) {
-    console.log('isNewUser was true');
-    await createNewUser(res.user.uid, {});
+    await createNewUser(res.user);
   }
 };
 
