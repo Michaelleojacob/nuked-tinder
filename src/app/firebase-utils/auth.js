@@ -4,7 +4,6 @@ import {
   signInWithPopup,
   signOut,
   getAdditionalUserInfo,
-  reauthenticateWithPopup,
 } from 'firebase/auth';
 
 import { createNewUser } from './firestore-newUser';
@@ -17,31 +16,6 @@ export const authSignInUser = async () => {
   return await signInWithPopup(getAuth(), provider);
 };
 
-export const deleteUser = () => {
-  const user = getAuth().currentUser;
-  return user.auth.deleteUser(user.uid);
-};
-
-export const reAuthenticate = async () => {
-  const user = getAuth().currentUser;
-  console.log(user);
-};
-// export const reAuthenticate = async () => {
-//   const thing = await reauthenticateWithPopup(new GoogleAuthProvider());
-//   console.log(thing);
-// };
-
-export const signInWithReAuth = async () => {
-  const provider = new GoogleAuthProvider();
-  const res = await reauthenticateWithPopup(getAuth(), provider);
-  console.log(res);
-  const info = getAdditionalUserInfo(res);
-  console.log(info);
-  if (info.isNewUser) {
-    console.log('isNewUser true');
-  }
-};
-
 export const signInWithExtraInfo = async () => {
   const provider = new GoogleAuthProvider();
   const res = await signInWithPopup(getAuth(), provider);
@@ -52,10 +26,8 @@ export const signInWithExtraInfo = async () => {
   }
 };
 
-export const getCurrentAuthUser = () => {
-  // console.log(user);
+export const logGetAuth = () => {
   console.log(getAuth().currentUser);
-  return getAuth().currentUser;
 };
 
 export const authSignOutUser = async () => {
