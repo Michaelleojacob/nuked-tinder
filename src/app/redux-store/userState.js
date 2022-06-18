@@ -6,6 +6,18 @@ import newUserFactory from '../utils/defaultUserFactory';
 
 const newUser = newUserFactory();
 
+// uid: uid || null,
+// fullName: null,
+// first: null,
+// last: null,
+// age: null,
+// bio: null,
+// mainPhoto: null,
+// photos: [],
+// jobTitle: null,
+// location: null,
+// interests: [],
+
 export const userSlice = createSlice({
   name: 'userStatus',
   initialState: {
@@ -19,20 +31,14 @@ export const userSlice = createSlice({
     signOutLocalUser: (state) => {
       state.loggedIn = false;
     },
-    updateAge: (state, action) => {
-      state.age = action.payload;
-    },
-    updateTitle: (state, action) => {
-      state.title = action.payload;
-    },
-    updateLocation: (state, action) => {
-      state.location = action.payload;
+    updateName: (state, action) => {
+      state.first = action.payload;
     },
     updateBasedOnAuth: (state, action) => {
       state.loggedIn = action.payload;
     },
-    updateBasedOnFireBase: (state) => {
-      state.loggedIn = isUserSignedIn();
+    updateDynamic: (state, action) => {
+      state[action.payload.label] = action.payload.value;
     },
   },
 });
@@ -43,9 +49,9 @@ export const checkLocalUserSignedIn = (state) => state.userStatus.loggedIn;
 export const {
   signInLocalUser,
   signOutLocalUser,
-  logState,
   updateBasedOnAuth,
-  updateBasedOnFireBase,
+  updateName,
+  updateDynamic,
 } = userSlice.actions;
 
 export default userSlice.reducer;

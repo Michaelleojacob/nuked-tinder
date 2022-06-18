@@ -1,15 +1,15 @@
 const newUserFactory = (uid) => {
   return {
     uid: uid || null,
-    fullName: null,
-    first: null,
-    last: null,
-    age: null,
-    bio: null,
+    fullName: '',
+    first: '',
+    last: '',
+    age: '',
+    bio: '',
     mainPhoto: null,
     photos: [],
-    jobTitle: null,
-    location: null,
+    jobTitle: '',
+    location: '',
     interests: [],
   };
 };

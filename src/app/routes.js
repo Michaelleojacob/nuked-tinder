@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { updateBasedOnAuth } from './redux-store/userState';
 import { isUserSignedIn } from './firebase-utils/auth';
 import { useDispatch } from 'react-redux';
+import EditProfile from './components/editProfile';
 
 const AppRoutes = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path='/' element={<App />} />
         <Route path='/landing' element={<LandingPage />} />
+        <Route path='/edit/:uid' element={<EditProfile />} />
         <Route path='/*' element={<App />} />
       </Routes>
     </HashRouter>
