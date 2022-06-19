@@ -8,9 +8,9 @@ const EditProfile = () => {
     <div>
       <DevNav />
       <div>EditProfile</div>
-      <FormComp label={'first'} state={user.first} />
-      <FormComp label={'last'} state={user.last} />
-      <FormComp label={'bio'} state={user.bio} />
+      <FormComp label={'first'} state={user} />
+      <FormComp label={'last'} state={user} />
+      <FormComp label={'bio'} state={user} />
     </div>
   );
 };
@@ -27,8 +27,9 @@ const FormComp = ({ label, state }) => {
     <form onSubmit={(e) => e.preventDefault()}>
       <label>{label}</label>
       <input
+        // onBlur={() => updateDb()}
         onChange={(e) => handleDynamic(e)}
-        value={state}
+        value={state[label]}
         className='border-2 border-slate-900'></input>
     </form>
   );

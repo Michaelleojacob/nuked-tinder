@@ -15,6 +15,7 @@ export const signInWithExtraInfo = async () => {
   if (info.isNewUser) {
     await createNewUser(res.user);
   }
+  return res.user.uid;
 };
 
 export const logGetAuth = () => {

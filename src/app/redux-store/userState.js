@@ -31,27 +31,29 @@ export const userSlice = createSlice({
     signOutLocalUser: (state) => {
       state.loggedIn = false;
     },
-    updateName: (state, action) => {
-      state.first = action.payload;
-    },
+
     updateBasedOnAuth: (state, action) => {
       state.loggedIn = action.payload;
     },
     updateDynamic: (state, action) => {
       state[action.payload.label] = action.payload.value;
     },
+    updateUid: (state, action) => {
+      state.uid = action.payload;
+    },
   },
 });
 
 export const checkLocalUser = (state) => ({ ...state.userStatus });
 export const checkLocalUserSignedIn = (state) => state.userStatus.loggedIn;
+export const checkLocalUid = (state) => state.userStatus.uid;
 
 export const {
   signInLocalUser,
   signOutLocalUser,
   updateBasedOnAuth,
-  updateName,
   updateDynamic,
+  updateUid,
 } = userSlice.actions;
 
 export default userSlice.reducer;
