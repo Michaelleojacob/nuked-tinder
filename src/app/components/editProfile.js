@@ -7,7 +7,7 @@ const EditProfile = () => {
   return (
     <div>
       <DevNav />
-      <div>EditProfile</div>
+      <div className='m-1 p-1'>EditProfile</div>
       <FormComp label={'first'} state={user} />
       <FormComp label={'last'} state={user} />
       <FormComp label={'bio'} state={user} />
@@ -23,11 +23,12 @@ const FormComp = ({ label, state }) => {
   const handleDynamic = (e) => {
     dispatch(updateDynamic({ label, value: e.target.value }));
   };
+  const updateDb = () => {};
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <form className='m-1 p-1' onSubmit={(e) => e.preventDefault()}>
       <label>{label}</label>
       <input
-        // onBlur={() => updateDb()}
+        onBlur={() => updateDb()}
         onChange={(e) => handleDynamic(e)}
         value={state[label]}
         className='border-2 border-slate-900'></input>
