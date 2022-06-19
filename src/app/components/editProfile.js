@@ -43,12 +43,9 @@ const FormComp = ({ label, state }) => {
 };
 
 const UploadImage = () => {
-  const handleChange = (e) => {
-    // console.log(e);
-    // console.log(e.target.files[0]);
+  const handleChange = async (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
-    // console.log(img);
-    saveImageMessage(img);
+    return await saveImageMessage(img);
   };
   return (
     <input
