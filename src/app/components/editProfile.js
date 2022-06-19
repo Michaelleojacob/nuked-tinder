@@ -1,6 +1,7 @@
 import DevNav from './devNav';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkLocalUser, updateDynamic } from '../redux-store/userState';
+import { updateUser } from '../firebase-utils/firestoreUser';
 
 const EditProfile = () => {
   const user = useSelector(checkLocalUser);
@@ -23,12 +24,14 @@ const FormComp = ({ label, state }) => {
   const handleDynamic = (e) => {
     dispatch(updateDynamic({ label, value: e.target.value }));
   };
-  const updateDb = () => {};
+  const updateDb = async () => {
+    await updateUser(label, state);
+  };
   return (
     <form className='m-1 p-1' onSubmit={(e) => e.preventDefault()}>
       <label>{label}</label>
       <input
-        onBlur={() => updateDb()}
+        onBlur={() => updateDb(label, state)}
         onChange={(e) => handleDynamic(e)}
         value={state[label]}
         className='border-2 border-slate-900'></input>
