@@ -13,7 +13,7 @@ const EditProfile = () => {
       <FormComp label={'first'} state={user} />
       <FormComp label={'last'} state={user} />
       <FormComp label={'bio'} state={user} />
-      <UploadImage />
+      <UploadImage user={user} />
     </div>
   );
 };
@@ -42,10 +42,10 @@ const FormComp = ({ label, state }) => {
   );
 };
 
-const UploadImage = () => {
+const UploadImage = ({ user }) => {
   const handleChange = async (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
-    return await saveImageMessage(img);
+    return await saveImageMessage(img, user.uid);
   };
   return (
     <input
