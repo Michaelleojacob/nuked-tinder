@@ -1,19 +1,24 @@
 import DevNav from './devNav';
 import { useSelector, useDispatch } from 'react-redux';
-import { checkLocalUser, updateDynamic } from '../redux-store/userState';
+import {
+  checkLocalUser,
+  updateDynamic,
+  updatePhotos,
+} from '../redux-store/userState';
 import { updateUser } from '../firebase-utils/firestoreUser';
 import { saveImageMessage } from '../firebase-utils/firebasePhotos';
 
 const EditProfile = () => {
   const user = useSelector(checkLocalUser);
+  const dispatch = useDispatch();
   return (
     <div>
       <DevNav />
       <div className='m-1 p-1'>EditProfile</div>
-      <FormComp label={'first'} state={user} />
-      <FormComp label={'last'} state={user} />
-      <FormComp label={'bio'} state={user} />
-      <UploadImage user={user} />
+      <FormComp label={'first'} state={user} dispatch={dispatch} />
+      <FormComp label={'last'} state={user} dispatch={dispatch} />
+      <FormComp label={'bio'} state={user} dispatch={dispatch} />
+      <UploadImage user={user} dispatch={dispatch} />
     </div>
   );
 };
@@ -22,8 +27,7 @@ const EditProfile = () => {
 // textarea: bio
 // photos: main, photos
 
-const FormComp = ({ label, state }) => {
-  const dispatch = useDispatch();
+const FormComp = ({ label, state, dispatch }) => {
   const handleDynamic = (e) => {
     dispatch(updateDynamic({ label, value: e.target.value }));
   };
@@ -45,7 +49,7 @@ const FormComp = ({ label, state }) => {
 const UploadImage = ({ user }) => {
   const handleChange = async (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
-    return await saveImageMessage(img, user.uid);
+    return await saveImageMessage(img, user);
   };
   return (
     <input

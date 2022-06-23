@@ -2,12 +2,10 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 const storage = getStorage();
 
-export const saveImageMessage = async (file, userPhotoCollection) => {
+export const saveImageMessage = async (file, user) => {
   try {
-    const storageRef = ref(storage, userPhotoCollection);
-    return await uploadBytes(storageRef, file);
-    // const imgRef = ref(storage, file);
-    // return await uploadBytes(imgRef);
+    const storageRef = ref(storage, `${user.uid}/${user.photos.length}`);
+    await uploadBytes(storageRef, file);
   } catch (e) {
     console.error(e);
   }

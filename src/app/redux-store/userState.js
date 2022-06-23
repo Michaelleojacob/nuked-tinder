@@ -41,6 +41,9 @@ export const userSlice = createSlice({
     updateUid: (state, action) => {
       state.uid = action.payload;
     },
+    updatePhotos: (state, action) => {
+      state.photos.push(action.payload);
+    },
   },
 });
 
@@ -54,6 +57,7 @@ export const {
   updateBasedOnAuth,
   updateDynamic,
   updateUid,
+  updatePhotos,
 } = userSlice.actions;
 
 export default userSlice.reducer;
