@@ -12,8 +12,6 @@ import EditProfile from './components/editProfile';
 
 const AppRoutes = () => {
   const dispatch = useDispatch();
-  const initFirebaseAuth = () =>
-    onAuthStateChanged(getAuth(), handleLoggedInState);
 
   const handleLoggedInState = () => {
     dispatch(updateBasedOnAuth(isUserSignedIn()));
@@ -21,8 +19,12 @@ const AppRoutes = () => {
   };
 
   useEffect(() => {
-    initFirebaseAuth();
-  });
+    const unSubscribe = onAuthStateChanged(getAuth(), () => {
+      isUserSignedIn() ? handleLoggedInState() : handleLoggedInState();
+    });
+    return () => unSubscribe();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <HashRouter>

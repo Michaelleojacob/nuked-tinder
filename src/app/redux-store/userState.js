@@ -29,7 +29,9 @@ export const userSlice = createSlice({
       state.loggedIn = true;
     },
     signOutLocalUser: (state) => {
-      state.loggedIn = false;
+      const resetUser = newUserFactory();
+      resetUser.loggedIn = isUserSignedIn();
+      console.log(state, resetUser);
     },
 
     updateBasedOnAuth: (state, action) => {
