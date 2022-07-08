@@ -3,10 +3,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   checkLocalUser,
   updateDynamic,
-  updatePhotos,
+  addPhoto,
+  checkUserPhotos,
 } from '../redux-store/userState';
 import { updateUser } from '../firebase-utils/firestoreUser';
-import { saveImageMessage } from '../firebase-utils/firebasePhotos';
+import { saveUserImage } from '../firebase-utils/firebasePhotos';
 
 const EditProfile = () => {
   const user = useSelector(checkLocalUser);
@@ -19,6 +20,7 @@ const EditProfile = () => {
       <FormComp label={'last'} state={user} dispatch={dispatch} />
       <FormComp label={'bio'} state={user} dispatch={dispatch} />
       <UploadImage user={user} dispatch={dispatch} />
+      <UserPhotos user={user} />
     </div>
   );
 };
@@ -46,10 +48,11 @@ const FormComp = ({ label, state, dispatch }) => {
   );
 };
 
-const UploadImage = ({ user }) => {
+const UploadImage = ({ user, dispatch }) => {
   const handleChange = async (e) => {
     const img = URL.createObjectURL(e.target.files[0]);
-    return await saveImageMessage(img, user);
+    dispatch(addPhoto(img));
+    return await saveUserImage(img, user);
   };
   return (
     <input
@@ -57,6 +60,17 @@ const UploadImage = ({ user }) => {
       className='m-1 p-1'
       type={'file'}
       accept='image/pngm image/jpeg'></input>
+  );
+};
+
+const UserPhotos = () => {
+  const photos = useSelector(checkUserPhotos);
+  return (
+    <>
+      {photos.map((photo, index) => (
+        <img src={photo} alt={`userPhoto-${index}`}></img>
+      ))}
+    </>
   );
 };
 

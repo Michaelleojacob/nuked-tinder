@@ -43,7 +43,7 @@ export const userSlice = createSlice({
     updateUid: (state, action) => {
       state.uid = action.payload;
     },
-    updatePhotos: (state, action) => {
+    addPhoto: (state, action) => {
       state.photos.push(action.payload);
     },
   },
@@ -52,6 +52,7 @@ export const userSlice = createSlice({
 export const checkLocalUser = (state) => ({ ...state.userStatus });
 export const checkLocalUserSignedIn = (state) => state.userStatus.loggedIn;
 export const checkLocalUid = (state) => state.userStatus.uid;
+export const checkUserPhotos = (state) => state.userStatus.photos;
 
 export const {
   signInLocalUser,
@@ -59,7 +60,7 @@ export const {
   updateBasedOnAuth,
   updateDynamic,
   updateUid,
-  updatePhotos,
+  addPhoto,
 } = userSlice.actions;
 
 export default userSlice.reducer;
