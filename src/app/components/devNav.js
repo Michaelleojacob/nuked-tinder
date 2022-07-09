@@ -5,6 +5,7 @@ import ToggleLoggedInLoggedOut from './toggleLoggedInLoggedOut';
 import { Link } from 'react-router-dom';
 import { getUser } from '../firebase-utils/firestoreUser';
 import { checkLocalUid } from '../redux-store/userState';
+import { getFolder } from '../firebase-utils/firebasePhotos';
 
 const DevNav = () => {
   const checkUser = useSelector(checkLocalUser);
@@ -14,6 +15,11 @@ const DevNav = () => {
   const handleCheckFbUser = async () => {
     const user = await getUser(userUid);
     console.log(user);
+  };
+
+  const handleGetFolder = async () => {
+    const thing = await getFolder(userUid);
+    console.log(thing);
   };
 
   return (
@@ -32,6 +38,11 @@ const DevNav = () => {
         className='bg-amber-500 hover:bg-amber-700 text-white py-1 px-2 rounded m-1 p-1 border border-amber-700 rounded'
         onClick={() => handleCheckFbUser()}>
         fbUser
+      </button>
+      <button
+        className='bg-lime-500 hover:bg-lime-700 text-white py-1 px-2 rounded m-1 p-1 border border-lime-700 rounded'
+        onClick={handleGetFolder}>
+        photos
       </button>
       <Link
         className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'
