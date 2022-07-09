@@ -10,23 +10,19 @@ import { storage } from '../firebase-utils/firebasePhotos';
 const EditProfile = () => {
   const user = useSelector(checkLocalUser);
   const dispatch = useDispatch();
-  const [userPhotos, setUserPhotos] = useState([]);
 
+  const [userPhotos, setUserPhotos] = useState([]);
   useEffect(() => {
     const getImages = async () => {
       await listAll(ref(storage, user.uid)).then((res) => {
-        console.log(res);
-        console.log(res.items);
         res.items.forEach(async (item) => {
           await getDownloadURL(ref(storage, item)).then((downloadURL) => {
-            console.log('hi');
             setUserPhotos((prevState) => [...prevState, downloadURL]);
           });
         });
       });
     };
     getImages();
-    // return async () => await getImages();
     // eslint-disable-next-line
   }, []);
 

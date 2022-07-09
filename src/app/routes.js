@@ -1,7 +1,7 @@
 // eslint-disable-next-line
-import { app, db } from './firebase-utils/firebase';
+import { app, auth, db } from './firebase-utils/firebase';
 import App from './app';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LandingPage from './components/landingPage';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react';
@@ -30,12 +30,19 @@ const AppRoutes = () => {
     <HashRouter>
       <Routes>
         <Route path='/' element={<App />} />
+        <Route element={<PrivateWrapper />}>
+          <Route path='/edit/:uid' element={<EditProfile />} />
+        </Route>
         <Route path='/landing' element={<LandingPage />} />
-        <Route path='/edit/:uid' element={<EditProfile />} />
         <Route path='/*' element={<App />} />
       </Routes>
     </HashRouter>
   );
+};
+
+const PrivateWrapper = () => {
+  const auth = isUserSignedIn();
+  return auth ? <Outlet /> : <Navigate to='/landing' />;
 };
 
 export default AppRoutes;
