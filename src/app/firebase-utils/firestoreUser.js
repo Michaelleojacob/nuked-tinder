@@ -1,5 +1,13 @@
 import { db } from './firebase';
-import { doc, getDoc, getDocs, collection, setDoc } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  setDoc,
+  updateDoc,
+  arrayUnion,
+} from 'firebase/firestore';
 
 export const getUser = async (uid) => {
   const userRef = doc(db, 'users', uid);
@@ -21,4 +29,11 @@ export const updateUser = async (label, data) => {
     },
     { merge: true }
   );
+};
+
+export const updateUserPhotos = async (uid, photo) => {
+  const userRef = doc(db, 'users', uid);
+  await updateDoc(userRef, {
+    photos: arrayUnion(photo._location.path_),
+  });
 };

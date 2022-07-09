@@ -1,29 +1,33 @@
 import DevNav from './devNav';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  checkLocalUser,
-  updateDynamic,
-  addPhoto,
-} from '../redux-store/userState';
+import { checkLocalUser, updateDynamic } from '../redux-store/userState';
 import { updateUser } from '../firebase-utils/firestoreUser';
 import { saveUserImage } from '../firebase-utils/firebasePhotos';
 import { useState, useEffect } from 'react';
-import { storage, getFolder } from '../firebase-utils/firebasePhotos';
-import { getDownloadURL, ref } from 'firebase/storage';
+import { getDownloadURL, ref, listAll } from 'firebase/storage';
+import { storage } from '../firebase-utils/firebasePhotos';
 
 const EditProfile = () => {
   const user = useSelector(checkLocalUser);
   const dispatch = useDispatch();
-  const [userPhotos, setUserPhotos] = useState();
+  const [userPhotos, setUserPhotos] = useState([]);
 
   useEffect(() => {
-    const getImage = async () => {
-      const myURL = await getDownloadURL(
-        ref(storage, 'LMwPP6AA6gOSeT34OIFmxOwt9LC3/android-chrome-192x192.png')
-      );
-      // console.log(myURL);
+    const getImages = async () => {
+      await listAll(ref(storage, user.uid)).then((res) => {
+        console.log(res);
+        console.log(res.items);
+        res.items.forEach(async (item) => {
+          await getDownloadURL(ref(storage, item)).then((downloadURL) => {
+            console.log('hi');
+            setUserPhotos((prevState) => [...prevState, downloadURL]);
+          });
+        });
+      });
     };
-    // getImage();
+    getImages();
+    // return async () => await getImages();
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -34,15 +38,11 @@ const EditProfile = () => {
       <FormComp label={'last'} state={user} dispatch={dispatch} />
       <FormComp label={'bio'} state={user} dispatch={dispatch} />
       <UploadImage user={user} dispatch={dispatch} />
-      <UserPhotos user={user} userPhotos={userPhotos} />
-      <DummyPhotos user={user} userPhotos={userPhotos} />
+      <UserPhotoComponent user={user} userPhotos={userPhotos} />
+      <button onClick={() => console.log(userPhotos)}>check userPhotos</button>
     </div>
   );
 };
-
-// inputs: name, jobtitle, location, age, interests (?)
-// textarea: bio
-// photos: main, photos
 
 const FormComp = ({ label, state, dispatch }) => {
   const handleDynamic = (e) => {
@@ -63,14 +63,9 @@ const FormComp = ({ label, state, dispatch }) => {
   );
 };
 
-const UploadImage = ({ user, dispatch }) => {
+const UploadImage = ({ user }) => {
   const handleChange = async (e) => {
-    // if (user.photos.length > 3) return;
-    console.log(e.target.files[0]);
-    const img = URL.createObjectURL(e.target.files[0]);
-    console.log(img);
-    // dispatch(addPhoto(img));
-    // await saveUserImage(img, user);
+    await saveUserImage(e.target.files[0], user);
   };
   return (
     <input
@@ -81,35 +76,20 @@ const UploadImage = ({ user, dispatch }) => {
   );
 };
 
-const UserPhotos = ({ user, userPhotos }) => {
-  const handleLogPhotos = () => {
-    console.log(userPhotos);
-  };
+const UserPhotoComponent = ({ userPhotos }) => {
+  useEffect(() => {}, [userPhotos]);
   return (
     <>
-      <button onClick={handleLogPhotos}>userPhotos</button>
-      {userPhotos
+      {userPhotos.length
         ? userPhotos.map((photo, index) => {
             return (
-              <div>
-                <img src={photo} alt='userphoto' key={`user-${index}`}></img>
-              </div>
+              <img
+                src={photo}
+                alt={`${photo}-${index}`}
+                key={`${photo}-${index}`}></img>
             );
           })
         : null}
-    </>
-  );
-};
-
-const DummyPhotos = ({ user }) => {
-  return (
-    <>
-      {user.photos.map((photo, index) => (
-        <img
-          src={photo}
-          alt={`userPhoto-${index}`}
-          key={`userPhoto-${index}`}></img>
-      ))}
     </>
   );
 };
