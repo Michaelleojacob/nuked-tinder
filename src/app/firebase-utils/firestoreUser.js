@@ -7,6 +7,7 @@ import {
   setDoc,
   updateDoc,
   arrayUnion,
+  deleteField,
 } from 'firebase/firestore';
 
 export const getUser = async (uid) => {
@@ -34,6 +35,17 @@ export const updateUser = async (label, data) => {
 export const updateUserPhotos = async (uid, photo) => {
   const userRef = doc(db, 'users', uid);
   await updateDoc(userRef, {
-    photos: arrayUnion(photo._location.path_),
+    photos: arrayUnion(photo),
   });
+};
+
+export const deletePhotoFromUser = async (uid, locationURL) => {
+  try {
+    const userRef = doc(db, 'users', uid);
+    await updateDoc(userRef, {
+      photos: deleteField(locationURL),
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
