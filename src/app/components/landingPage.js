@@ -1,4 +1,5 @@
 import DevNav from './devNav';
+import ToggleLoggedInLoggedOut from './toggleLoggedInLoggedOut';
 import { Link } from 'react-router-dom';
 
 const LandingPage = () => {
@@ -11,6 +12,7 @@ const LandingPage = () => {
         to='/'>
         Home
       </Link>
+      <ToggleLoggedInLoggedOut />
     </div>
   );
 };

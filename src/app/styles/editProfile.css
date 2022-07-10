@@ -1,0 +1,17 @@
+.editprofile-card-area {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.5rem;
+}
+
+.editprofile-photo {
+  display: flex;
+  max-height: 75px;
+  max-width: 75px;
+}
+
+.editprofile-img-cards {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,10 +1,4 @@
-import {
-  getAuth,
-  onAuthStateChanged,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signOut,
-} from 'firebase/auth';
+import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 import { useNavigate } from 'react-router-dom';
 
@@ -15,10 +9,6 @@ const signIn = async () => {
   } catch (e) {
     console.error(e);
   }
-};
-
-const signOutUser = async () => {
-  signOut(getAuth());
 };
 
 const LoginPage = () => {

@@ -3,3 +3,4 @@
 @tailwind utilities;
 
 @import url(app/styles/app.css);
+@import url(app/styles/editProfile.css);

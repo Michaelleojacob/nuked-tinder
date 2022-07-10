@@ -17,12 +17,16 @@ const EditProfile = () => {
       await listAll(ref(storage, user.uid)).then((res) => {
         res.items.forEach(async (item) => {
           await getDownloadURL(ref(storage, item)).then((downloadURL) => {
-            setUserPhotos((prevState) => [...prevState, downloadURL]);
+            setUserPhotos((prevState) => [
+              ...prevState,
+              { downloadURL, imgLocation: item._location.path_ },
+            ]);
           });
         });
       });
     };
     getImages();
+    return () => setUserPhotos([]);
     // eslint-disable-next-line
   }, []);
 
@@ -35,7 +39,7 @@ const EditProfile = () => {
       <FormComp label={'bio'} state={user} dispatch={dispatch} />
       <UploadImage user={user} dispatch={dispatch} />
       <UserPhotoComponent user={user} userPhotos={userPhotos} />
-      <button onClick={() => console.log(userPhotos)}>check userPhotos</button>
+      {/* <button onClick={() => console.log(userPhotos)}>check userPhotos</button> */}
     </div>
   );
 };
@@ -75,18 +79,25 @@ const UploadImage = ({ user }) => {
 const UserPhotoComponent = ({ userPhotos }) => {
   useEffect(() => {}, [userPhotos]);
   return (
-    <>
+    <div className='editprofile-card-area'>
       {userPhotos.length
         ? userPhotos.map((photo, index) => {
             return (
-              <img
-                src={photo}
-                alt={`${photo}-${index}`}
-                key={`${photo}-${index}`}></img>
+              <div
+                className='editprofile-img-cards'
+                key={`${photo.imgLocation}-${index}`}>
+                <img
+                  className='editprofile-photo'
+                  src={photo.downloadURL}
+                  alt={`${photo}-${index}`}></img>
+                <button className='bg-red-500 hover:bg-red-700 text-white py-1 px-1 rounded m-1 p-1 border border-red-700 rounded'>
+                  delete
+                </button>
+              </div>
             );
           })
         : null}
-    </>
+    </div>
   );
 };
 
