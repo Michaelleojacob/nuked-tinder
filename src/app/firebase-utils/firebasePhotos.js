@@ -26,15 +26,16 @@ export const getFolder = async (uid) => {
   return photoList.items;
 };
 
-export const saveImageToBucket = async (file, user) => {
-  try {
-    const storageRef = ref(storage, `${user.uid}/${file.name}`);
-    await uploadBytes(storageRef, file);
-    console.log(file);
-    // await updateUserPhotos(user.uid, `${user.uid}/${file.name}`);
-  } catch (e) {
-    console.error(e);
-  }
+// expects what?
+/**
+ * needs both photo and photo.name
+ *
+ */
+export const savePhotoToBucket = async (user, photo) => {
+  console.log(photo, user);
+  const storageRef = ref(storage, `${user}/${photo.name}`);
+  const res = await uploadBytes(storageRef, photo);
+  return res;
 };
 
 // export const deletePhotoFromBucket = async (path) => {

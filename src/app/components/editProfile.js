@@ -3,14 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { checkLocalUser, updateDynamic } from '../redux-store/userState';
 import {
   deleteImgFromUserDocAndBucket,
-  deletePhotoFromUser,
   updateUser,
-  updateUserPhotos,
+  addPhotoToBucketAndDocs,
 } from '../firebase-utils/firestoreUser';
-import {
-  deletePhotoFromBucket,
-  saveImageToBucket,
-} from '../firebase-utils/firebasePhotos';
 import { useState, useEffect } from 'react';
 import { getDownloadURL, ref, listAll } from 'firebase/storage';
 import { storage } from '../firebase-utils/firebasePhotos';
@@ -100,9 +95,8 @@ const FormComp = ({ label, state, dispatch }) => {
 
 const UploadImage = ({ user, triggerUseEffect }) => {
   const handleChange = async (e) => {
-    await updateUserPhotos(user.uid, e.target.files[0].name);
-    await saveImageToBucket(e.target.files[0], user);
-    triggerUseEffect();
+    const res = await addPhotoToBucketAndDocs(user.uid, e.target.files[0]);
+    if (res) triggerUseEffect();
   };
   return (
     <input
@@ -120,10 +114,8 @@ const UserPhotoCards = ({ user, userPhotos, triggerUseEffect }) => {
     setPhotosArr(photosArr.filter((item, itemIndex) => itemIndex !== index));
 
   const handleDelete = async (index, locationURL) => {
-    // remomveFromPhotosArr(index);
-    await deleteImgFromUserDocAndBucket(user.uid, locationURL);
-    // await deletePhotoFromUser(user.uid, locationURL);
-    // await deletePhotoFromBucket(locationURL);
+    const res = await deleteImgFromUserDocAndBucket(user.uid, locationURL);
+    if (res) remomveFromPhotosArr(index);
   };
 
   useEffect(() => {
