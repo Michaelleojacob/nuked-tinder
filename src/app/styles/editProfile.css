@@ -2,6 +2,10 @@
   display: flex;
   gap: 0.5rem;
   margin: 0.5rem;
+  min-width: 75px;
+  min-height: 75px;
+  max-width: 75px;
+  max-width: 75px;
 }
 
 .editprofile-photo {
