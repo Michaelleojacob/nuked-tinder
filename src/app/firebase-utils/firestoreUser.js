@@ -74,10 +74,16 @@ export const addPhotoToBucketAndDocs = async (uid, photo) => {
 // };
 
 export const deletePhotoFromUser = (uid, locationURL) => {
+  /**
+   * location url example:
+   * LMwPP6AA6gOSeT34OIFmxOwt9LC3/apple-touch-icon.png
+   * going to split it, and feed it just the 'apple-touch-icon.png'
+   */
+  const splitURL = locationURL.split('/');
   const userRef = doc(db, 'users', uid);
   return new Promise((resolve, reject) => {
     updateDoc(userRef, {
-      photos: arrayRemove(locationURL),
+      photos: arrayRemove(splitURL[1]),
     })
       .then(() => resolve('photo deleted from user doc'))
       .catch((err) => reject(err));
