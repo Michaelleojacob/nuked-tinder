@@ -9,6 +9,7 @@ import {
   arrayUnion,
   deleteField,
 } from 'firebase/firestore';
+import { saveImageToBucket, deletePhotoFromBucket } from './firebasePhotos';
 
 export const getUser = async (uid) => {
   const userRef = doc(db, 'users', uid);
@@ -32,19 +33,48 @@ export const updateUser = async (label, data) => {
   );
 };
 
+// expects uid, and photo.name ex:
 export const updateUserPhotos = async (uid, photo) => {
+  console.log(uid, photo);
+  try {
+    const userRef = doc(db, 'users', uid);
+    const res = await updateDoc(userRef, {
+      photos: arrayUnion(photo),
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+// export const deletePhotoFromUser = async (uid, locationURL) => {
+//   try {
+//     const userRef = doc(db, 'users', uid);
+//     await updateDoc(userRef, {
+//       photos: deleteField(locationURL),
+//     });
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
+
+export const deletePhotoFromUser = (uid, locationURL) => {
   const userRef = doc(db, 'users', uid);
-  await updateDoc(userRef, {
-    photos: arrayUnion(photo),
+  return new Promise((resolve, reject) => {
+    updateDoc(userRef, {
+      photos: deleteField(locationURL),
+    })
+      .then(() => resolve('photo deleted from user doc'))
+      .catch((err) => reject(err));
   });
 };
 
-export const deletePhotoFromUser = async (uid, locationURL) => {
+export const deleteImgFromUserDocAndBucket = async (uid, locationURL) => {
   try {
-    const userRef = doc(db, 'users', uid);
-    await updateDoc(userRef, {
-      photos: deleteField(locationURL),
-    });
+    const result = await Promise.all([
+      deletePhotoFromBucket(locationURL),
+      deletePhotoFromUser(uid, locationURL),
+    ]);
+    console.log(result);
   } catch (e) {
     console.error(e);
   }

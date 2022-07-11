@@ -2,24 +2,39 @@ import DevNav from './devNav';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkLocalUser, updateDynamic } from '../redux-store/userState';
 import {
+  deleteImgFromUserDocAndBucket,
   deletePhotoFromUser,
   updateUser,
+  updateUserPhotos,
 } from '../firebase-utils/firestoreUser';
 import {
   deletePhotoFromBucket,
-  saveUserImage,
+  saveImageToBucket,
 } from '../firebase-utils/firebasePhotos';
 import { useState, useEffect } from 'react';
 import { getDownloadURL, ref, listAll } from 'firebase/storage';
 import { storage } from '../firebase-utils/firebasePhotos';
 
 const EditProfile = () => {
+  // redux getter and setter
   const user = useSelector(checkLocalUser);
   const dispatch = useDispatch();
 
+  /**
+   * state to trigger a render of the fetch useEffect getImages();
+   * includes the re render trigger, a function to trigger the reRender
+   * and the arr that gets updated on successful fetch of the images.
+   */
   const [reRender, setReRender] = useState(false);
   const triggerUseEffect = () => setReRender(!reRender);
   const [userPhotos, setUserPhotos] = useState([]);
+
+  /**
+   * firebase magic
+   * gets user bucket (of images)
+   * turns the bucket into images (getdownloadURL)
+   * update local state to the array of images
+   */
   useEffect(() => {
     const getImages = async () => {
       try {
@@ -85,7 +100,8 @@ const FormComp = ({ label, state, dispatch }) => {
 
 const UploadImage = ({ user, triggerUseEffect }) => {
   const handleChange = async (e) => {
-    await saveUserImage(e.target.files[0], user);
+    await updateUserPhotos(user.uid, e.target.files[0].name);
+    await saveImageToBucket(e.target.files[0], user);
     triggerUseEffect();
   };
   return (
@@ -104,9 +120,10 @@ const UserPhotoCards = ({ user, userPhotos, triggerUseEffect }) => {
     setPhotosArr(photosArr.filter((item, itemIndex) => itemIndex !== index));
 
   const handleDelete = async (index, locationURL) => {
-    remomveFromPhotosArr(index);
-    await deletePhotoFromUser(user.uid, locationURL);
-    await deletePhotoFromBucket(locationURL);
+    // remomveFromPhotosArr(index);
+    await deleteImgFromUserDocAndBucket(user.uid, locationURL);
+    // await deletePhotoFromUser(user.uid, locationURL);
+    // await deletePhotoFromBucket(locationURL);
   };
 
   useEffect(() => {
