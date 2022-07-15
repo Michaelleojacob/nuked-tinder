@@ -19,12 +19,14 @@ const AppRoutes = () => {
   const [authState, setAuthState] = useState(isUserSignedIn());
   const dispatch = useDispatch();
 
+  // dynamically logs in or logs out based on onAuthStateChanged();
   const handleLoggedInState = () => {
     dispatch(updateBasedOnAuth(isUserSignedIn()));
     dispatch(updateUid(getUid()));
     setAuthState(isUserSignedIn());
   };
 
+  // updates localState when user logs in
   const fetchUserDataOnLogIn = async (uid) => {
     const userData = await getUser(uid);
     dispatch(updateStateOnLogIn(userData));
