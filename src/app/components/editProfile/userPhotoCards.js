@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { deleteImgFromUserDocAndBucket } from '../../firebase-utils/firestoreUser';
+import { useDispatch } from 'react-redux';
+import { removePhoto } from '../../redux-store/userState';
 
 const UserPhotoCards = ({ user, userPhotos, reRender }) => {
   const [photosArr, setPhotosArr] = useState([]);
+  const dispatch = useDispatch();
 
   const remomveFromPhotosArr = (index) =>
     setPhotosArr(photosArr.filter((item, itemIndex) => itemIndex !== index));
 
   const handleDelete = async (index, locationURL) => {
     const res = await deleteImgFromUserDocAndBucket(user.uid, locationURL);
-    if (res) remomveFromPhotosArr(index);
+    if (res) {
+      remomveFromPhotosArr(index);
+      dispatch(removePhoto(locationURL.split('/')[1]));
+    }
   };
 
   useEffect(() => {

@@ -11,6 +11,7 @@ const newUserFactory = (uid) => {
     jobTitle: '',
     location: '',
     interests: [],
+    firstTimeUser: true,
   };
 };
 export default newUserFactory;

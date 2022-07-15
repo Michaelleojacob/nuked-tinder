@@ -5,10 +5,15 @@ import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LandingPage from './components/landingPage';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
-import { updateBasedOnAuth, updateUid } from './redux-store/userState';
+import {
+  updateBasedOnAuth,
+  updateStateOnLogIn,
+  updateUid,
+} from './redux-store/userState';
 import { isUserSignedIn, getUid } from './firebase-utils/auth';
 import { useDispatch } from 'react-redux';
 import EditProfile from './components/editProfile';
+import { getUser } from './firebase-utils/firestoreUser';
 
 const AppRoutes = () => {
   const [authState, setAuthState] = useState(isUserSignedIn());
@@ -20,8 +25,16 @@ const AppRoutes = () => {
     setAuthState(isUserSignedIn());
   };
 
+  const fetchUserDataOnLogIn = async (uid) => {
+    const userData = await getUser(uid);
+    dispatch(updateStateOnLogIn(userData));
+  };
+
   useEffect(() => {
-    const unSubscribe = onAuthStateChanged(getAuth(), () => {
+    const unSubscribe = onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        fetchUserDataOnLogIn(user.uid);
+      }
       handleLoggedInState();
     });
     return () => unSubscribe();
@@ -47,12 +60,3 @@ const PrivateWrapper = ({ authState }) => {
 };
 
 export default AppRoutes;
-
-/**
- * todo
- *
- * get user data from backend on log in
- * set state from user data on log in
- * decide if I need to update the user info on each page that loads
- * IE -> edit profile loads, do I do another data fetch
- */

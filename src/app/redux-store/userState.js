@@ -25,26 +25,44 @@ export const userSlice = createSlice({
     ...newUser,
   },
   reducers: {
-    signInLocalUser: (state) => {
-      state.loggedIn = true;
-    },
-    signOutLocalUser: (state) => {
-      const resetUser = newUserFactory();
-      resetUser.loggedIn = isUserSignedIn();
-      console.log(state, resetUser);
-    },
-
     updateBasedOnAuth: (state, action) => {
-      state.loggedIn = action.payload;
+      return {
+        ...state,
+        loggedIn: action.payload,
+      };
     },
     updateDynamic: (state, action) => {
-      state[action.payload.label] = action.payload.value;
+      return {
+        ...state,
+        [action.payload.label]: action.payload.value,
+      };
     },
     updateUid: (state, action) => {
-      state.uid = action.payload;
+      return {
+        ...state,
+        uid: action.payload,
+      };
     },
     addPhoto: (state, action) => {
-      state.photos.push(action.payload);
+      return {
+        ...state,
+        photos: [...state.photos, action.payload],
+      };
+    },
+    removePhoto: (state, action) => {
+      const newArr = [...state.photos].filter(
+        (item) => item !== action.payload
+      );
+      return {
+        ...state,
+        photos: [...newArr],
+      };
+    },
+    updateStateOnLogIn: (state, action) => {
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
   },
 });
@@ -55,12 +73,12 @@ export const checkLocalUid = (state) => state.userStatus.uid;
 export const checkUserPhotos = (state) => state.userStatus.photos;
 
 export const {
-  signInLocalUser,
-  signOutLocalUser,
   updateBasedOnAuth,
   updateDynamic,
   updateUid,
   addPhoto,
+  updateStateOnLogIn,
+  removePhoto,
 } = userSlice.actions;
 
 export default userSlice.reducer;
