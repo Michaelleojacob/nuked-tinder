@@ -22,7 +22,7 @@ const AppRoutes = () => {
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(getAuth(), () => {
-      isUserSignedIn() ? handleLoggedInState() : handleLoggedInState();
+      handleLoggedInState();
     });
     return () => unSubscribe();
     // eslint-disable-next-line
@@ -47,3 +47,12 @@ const PrivateWrapper = ({ authState }) => {
 };
 
 export default AppRoutes;
+
+/**
+ * todo
+ *
+ * get user data from backend on log in
+ * set state from user data on log in
+ * decide if I need to update the user info on each page that loads
+ * IE -> edit profile loads, do I do another data fetch
+ */

@@ -26,7 +26,6 @@ export const getFolder = async (uid) => {
   return photoList.items;
 };
 
-// expects what?
 /**
  * needs both photo and photo.name
  */

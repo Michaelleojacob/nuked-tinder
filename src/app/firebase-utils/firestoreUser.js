@@ -44,19 +44,11 @@ export const updateUserPhotos = async (uid, photo) => {
 
 // add photos to bucket and docs
 export const addPhotoToBucketAndDocs = async (uid, photo) => {
-  // console.log(uid, photo);
-  try {
-    const result = Promise.all([
-      updateUserPhotos(uid, photo),
-      savePhotoToBucket(uid, photo),
-    ])
-      .then(() => true)
-      .catch(() => false);
-    // console.log(result);
-    return result;
-  } catch (e) {
-    console.error(e);
-  }
+  const result = await Promise.all([
+    updateUserPhotos(uid, photo),
+    savePhotoToBucket(uid, photo),
+  ]);
+  return result;
 };
 
 //===============================================================================
