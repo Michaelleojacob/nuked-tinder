@@ -83,23 +83,22 @@ export const deletePhotoFromUser = (uid, locationURL) => {
 };
 
 export const deleteImgFromUserDocAndBucket = async (uid, locationURL) => {
-  try {
-    /**
-     * returning true/false via .then/.catch
-     * if I want to check the resolves of deletePhotoFromUser || deletePhotoFromBucket
-     * comment out the .then()+.catch()
-     */
-    const result = await Promise.all([
-      deletePhotoFromBucket(locationURL),
-      deletePhotoFromUser(uid, locationURL),
-    ])
-      .then(() => true)
-      .catch(() => false);
-    // console.log(result);
-    return result;
-  } catch (e) {
-    console.error(e);
-  }
+  /**
+   * returning true/false via .then/.catch
+   * if I want to check the resolves of deletePhotoFromUser || deletePhotoFromBucket
+   * comment out the .then()+.catch()
+   */
+  const result = await Promise.all([
+    deletePhotoFromBucket(locationURL),
+    deletePhotoFromUser(uid, locationURL),
+  ])
+    .then(() => true)
+    .catch((e) => {
+      console.error(e);
+      return false;
+    });
+  // console.log(result);
+  return result;
 };
 
 // ## delete

@@ -6,7 +6,6 @@ import {
   ref,
   uploadBytes,
 } from 'firebase/storage';
-// import { updateUserPhotos } from './firestoreUser';
 
 export const storage = getStorage();
 

@@ -2,25 +2,20 @@ import DevNav from './devNav';
 import { useSelector, useDispatch } from 'react-redux';
 import { checkLocalUser } from '../redux-store/userState';
 import { useState, useEffect } from 'react';
-import { getDownloadURL, ref, listAll } from 'firebase/storage';
-import { storage } from '../firebase-utils/firebasePhotos';
 import UserPhotoCards from './editProfile/userPhotoCards';
 import UploadImage from './editProfile/uploadImage';
 import FormComp from './editProfile/formComp';
+import { useFetchUserImages } from './editProfile/fetchUserImages';
 
 const EditProfile = () => {
   // redux getter and setter
   const user = useSelector(checkLocalUser);
   const dispatch = useDispatch();
 
-  /**
-   * state to trigger a render of the fetch useEffect getImages();
-   * includes the re render trigger, a function to trigger the reRender
-   * and the arr that gets updated on successful fetch of the images.
-   */
   const [reRender, setReRender] = useState(false);
   const triggerUseEffect = () => setReRender(!reRender);
   const [userPhotos, setUserPhotos] = useState([]);
+  const { data, loading } = useFetchUserImages(user.uid, reRender);
 
   /**
    * firebase magic
@@ -29,26 +24,10 @@ const EditProfile = () => {
    * update local state to the array of images
    */
   useEffect(() => {
-    const getImages = async () => {
-      try {
-        await listAll(ref(storage, user.uid)).then((res) => {
-          res.items.forEach(async (item) => {
-            await getDownloadURL(ref(storage, item)).then((downloadURL) => {
-              setUserPhotos((prevState) => [
-                ...prevState,
-                { downloadURL, imgLocation: item._location.path_ },
-              ]);
-            });
-          });
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    getImages();
+    setUserPhotos((prevState) => [...prevState, ...data]);
     return () => setUserPhotos([]);
     // eslint-disable-next-line
-  }, [reRender]);
+  }, [data, reRender]);
 
   return (
     <div>
