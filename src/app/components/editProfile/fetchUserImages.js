@@ -6,20 +6,25 @@ export const useFetchUserImages = (uid, reRender) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const getImages = async () => {
-      await listAll(ref(storage, uid)).then((res) => {
-        res.items.forEach(async (item) => {
-          await getDownloadURL(ref(storage, item)).then((downloadURL) => {
-            setData((prevState) => [
-              ...prevState,
-              { downloadURL, imgLocation: item._location.path_ },
-            ]);
-            setLoading(false);
-          });
+  const getImages = async () => {
+    await listAll(ref(storage, uid)).then((res) => {
+      if (!res.items.length) {
+        setData([]);
+        setLoading(false);
+      }
+      res.items.forEach(async (item) => {
+        await getDownloadURL(ref(storage, item)).then((downloadURL) => {
+          setData((prevState) => [
+            ...prevState,
+            { downloadURL, imgLocation: item._location.path_ },
+          ]);
+          setLoading(false);
         });
       });
-    };
+    });
+  };
+
+  useEffect(() => {
     getImages();
   }, [reRender]);
 

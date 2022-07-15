@@ -17,17 +17,11 @@ const EditProfile = () => {
   const [userPhotos, setUserPhotos] = useState([]);
   const { data, loading } = useFetchUserImages(user.uid, reRender);
 
-  /**
-   * firebase magic
-   * gets user bucket (of images)
-   * turns the bucket into images (getdownloadURL)
-   * update local state to the array of images
-   */
   useEffect(() => {
     setUserPhotos((prevState) => [...prevState, ...data]);
     return () => setUserPhotos([]);
     // eslint-disable-next-line
-  }, [data, reRender]);
+  }, [loading, reRender]);
 
   return (
     <div>
