@@ -4,28 +4,27 @@ import { storage } from '../../firebase-utils/firebasePhotos';
 
 export const useFetchUserImages = (uid, reRender) => {
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getImages = async () => {
+    setLoading(true);
     await listAll(ref(storage, uid)).then((res) => {
-      if (!res.items.length) {
-        setData([]);
-        setLoading(false);
-      }
       res.items.forEach(async (item) => {
         await getDownloadURL(ref(storage, item)).then((downloadURL) => {
           setData((prevState) => [
             ...prevState,
             { downloadURL, imgLocation: item._location.path_ },
           ]);
-          setLoading(false);
         });
       });
     });
+    setLoading(false);
   };
 
   useEffect(() => {
     getImages();
+    return () => setData([]);
+    // eslint-disable-next-line
   }, [reRender]);
 
   return { data, loading };

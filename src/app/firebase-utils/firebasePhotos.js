@@ -30,7 +30,12 @@ export const getFolder = async (uid) => {
  */
 export const savePhotoToBucket = async (user, photo) => {
   const storageRef = ref(storage, `${user}/${photo.name}`);
-  const res = await uploadBytes(storageRef, photo);
+  const res = await uploadBytes(storageRef, photo)
+    .then(() => true)
+    .catch((err) => {
+      console.log(err);
+      return false;
+    });
   return res;
 };
 

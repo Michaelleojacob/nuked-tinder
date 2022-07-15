@@ -38,7 +38,12 @@ export const updateUserPhotos = async (uid, photo) => {
   const userRef = doc(db, 'users', uid);
   const res = await updateDoc(userRef, {
     photos: arrayUnion(photo.name),
-  });
+  })
+    .then(() => true)
+    .catch((err) => {
+      console.error(`error in updateUserPhotos: ${err}`);
+      return false;
+    });
   return res;
 };
 
@@ -48,22 +53,11 @@ export const addPhotoToBucketAndDocs = async (uid, photo) => {
     updateUserPhotos(uid, photo),
     savePhotoToBucket(uid, photo),
   ]);
-  return result;
+  return result.every((item) => item);
 };
 
 //===============================================================================
 // ## delete
-
-// export const deletePhotoFromUser = async (uid, locationURL) => {
-//   try {
-//     const userRef = doc(db, 'users', uid);
-//     await updateDoc(userRef, {
-//       photos: deleteField(locationURL),
-//     });
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
 
 export const deletePhotoFromUser = (uid, locationURL) => {
   /**

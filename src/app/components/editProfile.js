@@ -21,7 +21,7 @@ const EditProfile = () => {
     setUserPhotos((prevState) => [...prevState, ...data]);
     return () => setUserPhotos([]);
     // eslint-disable-next-line
-  }, [loading, reRender]);
+  }, [data, reRender]);
 
   return (
     <div>
@@ -35,11 +35,15 @@ const EditProfile = () => {
         dispatch={dispatch}
         triggerUseEffect={triggerUseEffect}
       />
-      <UserPhotoCards
-        user={user}
-        userPhotos={userPhotos}
-        triggerUseEffect={triggerUseEffect}
-      />
+      {loading ? (
+        <div>loading...</div>
+      ) : (
+        <UserPhotoCards
+          user={user}
+          userPhotos={userPhotos}
+          reRender={reRender}
+        />
+      )}
     </div>
   );
 };
