@@ -12,3 +12,13 @@ export const createNewUser = async (user) => {
     console.error(e);
   }
 };
+
+export const createMock = async (botObject) => {
+  try {
+    await setDoc(doc(db, 'users', botObject.uid), {
+      ...botObject,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};

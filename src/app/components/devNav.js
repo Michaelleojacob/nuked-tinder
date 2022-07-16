@@ -54,6 +54,16 @@ const DevNav = () => {
         to={`/edit/${userUid}`}>
         edit
       </Link>
+      <Link
+        className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'
+        to={`/swipe`}>
+        swipe
+      </Link>
+      <Link
+        className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'
+        to={`/landing`}>
+        landing
+      </Link>
       <ToggleLoggedInLoggedOut />
     </div>
   );
