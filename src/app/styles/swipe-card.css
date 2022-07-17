@@ -1,0 +1,12 @@
+.swipe-card {
+  max-height: 300px;
+  max-width: 300px;
+  border: 1px solid black;
+}
+
+.swipe-card-image {
+  flex: 1;
+  width: 200px;
+  height: 200px;
+  resizemode: 'cover';
+}

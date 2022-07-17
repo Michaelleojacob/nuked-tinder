@@ -15,12 +15,14 @@ import { isUserSignedIn, getUid } from './firebase-utils/auth';
 import { useDispatch } from 'react-redux';
 import EditProfile from './components/editProfile';
 import { getUser } from './firebase-utils/firestoreUser';
-import { useMockHumans } from './utils/useMockHumans';
+//! delete once done with mocks
+// import { useMockHumans } from './utils/useMockHumans';
 
 const AppRoutes = () => {
+  //! delete once done with mocks
+  // useMockHumans();
   const [authState, setAuthState] = useState(isUserSignedIn());
   const dispatch = useDispatch();
-  useMockHumans();
 
   // dynamically logs in or logs out based on onAuthStateChanged();
   const handleLoggedInState = () => {
