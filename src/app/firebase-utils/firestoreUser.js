@@ -97,3 +97,14 @@ export const deleteImgFromUserDocAndBucket = async (uid, locationURL) => {
 
 // ## delete
 //===============================================================================
+
+export const updateLikedUsers = async (uid, likedUserUid) => {
+  try {
+    const userRef = doc(db, 'users', uid);
+    await updateDoc(userRef, {
+      likedUsers: arrayUnion(likedUserUid),
+    });
+  } catch (err) {
+    console.error(`error in updateLikedUsers: ${err}`);
+  }
+};

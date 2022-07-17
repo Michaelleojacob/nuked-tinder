@@ -7,6 +7,7 @@ const newUserFactory = (uid) => {
     bio: '',
     mainPhoto: null,
     photos: [],
+    likedUsers: [],
     firstTimeUser: true,
   };
 };

@@ -5,22 +5,8 @@ import { useSelector } from 'react-redux';
 import { checkLocalUid } from '../../redux-store/userState';
 import { shuffle } from '../../utils/shuffleArr';
 import { useSwipeable } from 'react-swipeable';
+import { updateLikedUsers } from '../../firebase-utils/firestoreUser';
 
-/**
- * todo:
- * fetch group of people from database
- * display people as cards
- * enable swipe functionality
- */
-
-/**
- * get say, 5 people. Store in array (?)
- * probably on log-in
- *
- * every time we swipe, remove that person from array
- *
- * once array is less than 5/3
- */
 const SwipeArea = () => {
   const [profiles, setProfiles] = useState([]);
   const [indx, setIndx] = useState(0);
@@ -40,15 +26,14 @@ const SwipeArea = () => {
   };
 
   const handleSwipeRight = useSwipeable({
-    onSwipedRight: (eventData) => {
+    onSwipedRight: async () => {
+      await updateLikedUsers(userUid, profiles[indx].uid);
       if (indx >= profiles.length - 1) return;
-      console.log('user swiped right', eventData);
       incrementIndx();
     },
     ...config,
-    onSwipedLeft: (eventData) => {
+    onSwipedLeft: () => {
       if (indx >= profiles.length - 1) return;
-      console.log('user swiped left', eventData);
       incrementIndx();
     },
     ...config,
@@ -58,13 +43,11 @@ const SwipeArea = () => {
     const queryUsers = async () => {
       const profileArr = await getUsers();
       const removeSelf = profileArr.filter((p) => p.uid !== userUid);
-      console.log(removeSelf);
       const shuffled = shuffle(removeSelf);
-      shuffled.forEach((person) => console.log(person.first));
-      console.log(shuffled.length);
       setProfiles([...shuffled]);
     };
     queryUsers();
+    // eslint-disable-next-line
   }, []);
 
   return (
