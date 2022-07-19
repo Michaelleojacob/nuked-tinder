@@ -5,7 +5,18 @@ import { useSelector } from 'react-redux';
 import { checkLocalUid } from '../../redux-store/userState';
 import { shuffle } from '../../utils/shuffleArr';
 import { useSwipeable } from 'react-swipeable';
-import { updateLikedUsers } from '../../firebase-utils/firestoreUser';
+import { getUser, updateLikedUsers } from '../../firebase-utils/firestoreUser';
+import { createChatRoom } from '../../firebase-utils/firebase-chatrooms';
+
+const config = {
+  delta: 10,
+  preventScrollOnSwipe: true,
+  trackTouch: true,
+  trackMouse: true,
+  rotationAngle: 0,
+  swipeDuration: Infinity,
+  touchEventOptions: { passive: true },
+};
 
 const SwipeArea = () => {
   const [profiles, setProfiles] = useState([]);
@@ -15,19 +26,24 @@ const SwipeArea = () => {
   const incrementIndx = () => setIndx(indx + 1);
   const decrementIndx = () => setIndx(indx - 1);
 
-  const config = {
-    delta: 10,
-    preventScrollOnSwipe: true,
-    trackTouch: true,
-    trackMouse: true,
-    rotationAngle: 0,
-    swipeDuration: Infinity,
-    touchEventOptions: { passive: true },
+  const checkForMatch = async (otherPersonUid) => {
+    const p = await getUser(otherPersonUid);
+    const { likedUsers, uid } = p;
+    if (likedUsers.includes(userUid)) {
+      // figure how which order ->  userUid / p.uid  OR p.uid / userUid
+      const lol = [uid, userUid].sort((a, b) => b - a);
+
+      createChatRoom(lol);
+
+      // create a firebase chatroom with the userUid + p.uid
+      // somehow reference the chatroom from both users (?)
+    }
   };
 
   const handleSwipeRight = useSwipeable({
     onSwipedRight: async () => {
       await updateLikedUsers(userUid, profiles[indx].uid);
+      checkForMatch(profiles[indx].uid);
       if (indx >= profiles.length - 1) return;
       incrementIndx();
     },
