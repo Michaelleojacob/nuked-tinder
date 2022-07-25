@@ -31,5 +31,8 @@ service cloud.firestore {
         allow read: if request.auth.uid == userId;
       }
     }
+    match /rooms/{document=**} {
+      allow create: if request.auth
+    }
   }
 }
