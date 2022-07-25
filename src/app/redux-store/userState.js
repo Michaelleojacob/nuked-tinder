@@ -61,6 +61,12 @@ export const userSlice = createSlice({
         ...action.payload,
       };
     },
+    pushLikedUser: (state, action) => {
+      return {
+        ...state,
+        likedUsers: [...state.likedUsers, action.payload],
+      };
+    },
   },
 });
 
@@ -76,6 +82,7 @@ export const {
   addPhoto,
   updateStateOnLogIn,
   removePhoto,
+  pushLikedUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

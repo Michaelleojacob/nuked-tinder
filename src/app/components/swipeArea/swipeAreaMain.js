@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import DevNav from '../devNav';
 import { getUsers } from '../../firebase-utils/firebase-getRanUsers';
-import { useSelector } from 'react-redux';
-import { checkLocalUid } from '../../redux-store/userState';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  checkLocalUid,
+  checkLocalUser,
+  pushLikedUser,
+} from '../../redux-store/userState';
 import { shuffle } from '../../utils/shuffleArr';
 import { useSwipeable } from 'react-swipeable';
 import { getUser, updateLikedUsers } from '../../firebase-utils/firestoreUser';
@@ -22,6 +26,8 @@ const SwipeArea = () => {
   const [profiles, setProfiles] = useState([]);
   const [indx, setIndx] = useState(0);
   const userUid = useSelector(checkLocalUid);
+  const user = useSelector(checkLocalUser);
+  const dispatch = useDispatch();
 
   const incrementIndx = () => setIndx(indx + 1);
   const decrementIndx = () => setIndx(indx - 1);
@@ -30,19 +36,16 @@ const SwipeArea = () => {
     const p = await getUser(otherPersonUid);
     const { likedUsers, uid } = p;
     if (likedUsers.includes(userUid)) {
-      // figure how which order ->  userUid / p.uid  OR p.uid / userUid
       const lol = [uid, userUid].sort((a, b) => b - a);
 
       createChatRoom(lol);
-
-      // create a firebase chatroom with the userUid + p.uid
-      // somehow reference the chatroom from both users (?)
     }
   };
 
   const handleSwipeRight = useSwipeable({
     onSwipedRight: async () => {
       await updateLikedUsers(userUid, profiles[indx].uid);
+      dispatch(pushLikedUser(profiles[indx].uid));
       checkForMatch(profiles[indx].uid);
       if (indx >= profiles.length - 1) return;
       incrementIndx();
@@ -58,8 +61,12 @@ const SwipeArea = () => {
   useEffect(() => {
     const queryUsers = async () => {
       const profileArr = await getUsers();
+      const { likedUsers } = user;
       const removeSelf = profileArr.filter((p) => p.uid !== userUid);
-      const shuffled = shuffle(removeSelf);
+      const removeAlreadyLikedUser = removeSelf.filter(
+        (p) => !likedUsers.includes(p.uid)
+      );
+      const shuffled = shuffle(removeAlreadyLikedUser);
       setProfiles([...shuffled]);
     };
     queryUsers();
