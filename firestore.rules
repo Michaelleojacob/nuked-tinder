@@ -32,7 +32,7 @@ service cloud.firestore {
       }
     }
     match /rooms/{document=**} {
-      allow create: if request.auth
+      allow create: if auth.uid !== null;
     }
   }
 }
