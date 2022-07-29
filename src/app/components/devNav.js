@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { getUser } from '../firebase-utils/firestoreUser';
 import { checkLocalUid } from '../redux-store/userState';
 import { getFolder } from '../firebase-utils/firebasePhotos';
+import { getChatRooms } from '../firebase-utils/firebase-chatrooms';
 
 const DevNav = () => {
   const checkUser = useSelector(checkLocalUser);
@@ -20,6 +21,11 @@ const DevNav = () => {
   const handleGetFolder = async () => {
     const thing = await getFolder(userUid);
     console.log(thing);
+  };
+
+  const handleGetChatRooms = async () => {
+    const chatrooms = await getChatRooms(userUid);
+    console.log(chatrooms);
   };
 
   return (
@@ -43,6 +49,11 @@ const DevNav = () => {
         className='bg-lime-500 hover:bg-lime-700 text-white py-1 px-2 rounded m-1 p-1 border border-lime-700 rounded'
         onClick={handleGetFolder}>
         photos
+      </button>
+      <button
+        className='bg-lime-500 hover:bg-lime-700 text-white py-1 px-2 rounded m-1 p-1 border border-lime-700 rounded'
+        onClick={handleGetChatRooms}>
+        getChatRooms
       </button>
       <Link
         className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'

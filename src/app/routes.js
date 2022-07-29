@@ -60,6 +60,7 @@ const AppRoutes = () => {
         <Route element={<PrivateWrapper authState={authState} />}>
           <Route path='/edit/:uid' element={<EditProfile />} />
           <Route path='/swipe' element={<SwipeArea />} />
+          {/* <Route path='/chatRooms' element={<chatRooms />} /> */}
         </Route>
         <Route path='/landing' element={<LandingPage />} />
         <Route path='/*' element={<App />} />
