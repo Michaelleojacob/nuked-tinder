@@ -10,7 +10,10 @@ const botFactory = ({ uid, first, last, age, bio, mainPhoto, photos }) => {
     bio,
     mainPhoto,
     photos,
-    likedUsers: ['gszdhgHeRMRQbm3BWhNtQlLLyHf1'],
+    likedUsers: [
+      'gszdhgHeRMRQbm3BWhNtQlLLyHf1',
+      'sY82donXUtQi1nfc4cJvcHV6xWr2',
+    ],
   };
   mockPeopleArr.push(obj);
 };
