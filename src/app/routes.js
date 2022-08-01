@@ -15,6 +15,12 @@ import { isUserSignedIn, getUid } from './firebase-utils/auth';
 import { useDispatch } from 'react-redux';
 import EditProfile from './components/editProfile';
 import { getUser } from './firebase-utils/firestoreUser';
+import Chatrooms from './components/chatrooms/chatrooms';
+import { testPhotos } from './firebase-utils/firebasePhotos';
+import {
+  getChatRooms,
+  addChatRoomsListener,
+} from './firebase-utils/firebase-chatrooms';
 //! delete once done with mocks
 // import { useMockHumans } from './utils/useMockHumans';
 
@@ -33,8 +39,17 @@ const AppRoutes = () => {
 
   // updates localState when user logs in
   const fetchUserDataOnLogIn = async (uid) => {
-    const userData = await getUser(uid);
-    dispatch(updateStateOnLogIn(userData));
+    const allInfo = await Promise.all([
+      getUser(uid),
+      testPhotos(uid),
+      getChatRooms(uid),
+      addChatRoomsListener(uid),
+    ]);
+    console.log(allInfo);
+
+    // ? the old approach
+    // const userData = await getUser(uid);
+    // dispatch(updateStateOnLogIn(userData));
   };
 
   /**
@@ -60,7 +75,7 @@ const AppRoutes = () => {
         <Route element={<PrivateWrapper authState={authState} />}>
           <Route path='/edit/:uid' element={<EditProfile />} />
           <Route path='/swipe' element={<SwipeArea />} />
-          {/* <Route path='/chatRooms' element={<chatRooms />} /> */}
+          <Route path='/rooms' element={<Chatrooms />} />
         </Route>
         <Route path='/landing' element={<LandingPage />} />
         <Route path='/*' element={<App />} />

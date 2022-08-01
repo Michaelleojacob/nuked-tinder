@@ -29,7 +29,7 @@ const DevNav = () => {
   };
 
   return (
-    <div>
+    <div className='devNav'>
       <button
         className='bg-orange-500 hover:bg-orange-700 text-white py-1 px-2 rounded m-1 p-1 border border-orange-700 rounded'
         onClick={logGetAuth}>
@@ -74,6 +74,11 @@ const DevNav = () => {
         className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'
         to={`/landing`}>
         landing
+      </Link>
+      <Link
+        className='bg-emerald-500 hover:bg-emerald-700 text-white py-1 px-2 rounded m-1 p-1 border border-emerald-700 rounded'
+        to={`/rooms`}>
+        chatrooms
       </Link>
       <ToggleLoggedInLoggedOut />
     </div>

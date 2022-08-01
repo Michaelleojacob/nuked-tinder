@@ -9,6 +9,11 @@ import {
 
 export const storage = getStorage();
 
+export const testPhotos = async (uid) => {
+  const photos = await listAll(ref(storage, uid));
+  return photos.items;
+};
+
 export const getUserImages = async (uid) => {
   await listAll(ref(storage, uid)).then((res) => {
     res.items.forEach(async (item) => {

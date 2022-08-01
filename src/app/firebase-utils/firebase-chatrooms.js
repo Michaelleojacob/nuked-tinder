@@ -5,6 +5,7 @@ import {
   query,
   where,
   getDocs,
+  onSnapshot,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -35,7 +36,47 @@ export const getChatRooms = async (uid) => {
       where('chatUsers', 'array-contains', uid)
     );
     const snap = await getDocs(rooms);
-    snap.forEach((doc) => console.log(doc.data()));
+    const chats = [];
+    snap.forEach((doc) => chats.push(doc.data()));
+    return chats;
+  } catch (e) {
+    console.error(e);
+  }
+};
+// export const getChatRoomsWithListener = async (uid) => {
+//   try {
+//     const q = query(
+//       collection(db, 'rooms'),
+//       where('chatUsers', 'array-contains', uid)
+//     );
+//     const chats = [];
+//     const unsubscribe = onSnapshot(q, (querySnapShot) => {
+//       querySnapShot.forEach((doc) => chats.push(doc.data()));
+//     });
+//     return chats;
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
+export const addChatRoomsListener = async (uid) => {
+  try {
+    const q = query(
+      collection(db, 'rooms'),
+      where('chatUsers', 'array-contains', uid)
+    );
+    return onSnapshot(q, (querySnapShot) => {
+      querySnapShot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          console.log('added', change.doc.data());
+          return getChatRooms(uid);
+        }
+        if (change.type === 'modified') {
+          console.log('modified messages:', change.doc.data());
+          return getChatRooms(uid);
+        }
+      });
+      return getChatRooms(uid);
+    });
   } catch (e) {
     console.error(e);
   }
