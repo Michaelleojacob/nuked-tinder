@@ -63,13 +63,11 @@ const AppRoutes = () => {
     return onSnapshot(queryChats, (querySnapShot) => {
       querySnapShot.docChanges().forEach((change) => {
         if (change.type === 'added') {
-          console.log('added');
           getChatRooms(uid)
             .then((res) => setTestChats(res))
             .catch((err) => console.error(err));
         }
         if (change.type === 'modified') {
-          console.log('modified');
           getChatRooms(uid)
             .then((res) => setTestChats(res))
             .catch((err) => console.error(err));
