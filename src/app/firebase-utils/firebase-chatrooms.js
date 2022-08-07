@@ -6,6 +6,8 @@ import {
   where,
   getDocs,
   onSnapshot,
+  updateDoc,
+  arrayUnion,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -45,21 +47,22 @@ export const getChatRooms = async (uid) => {
     console.error(e);
   }
 };
-// export const getChatRoomsWithListener = async (uid) => {
-//   try {
-//     const q = query(
-//       collection(db, 'rooms'),
-//       where('chatUsers', 'array-contains', uid)
-//     );
-//     const chats = [];
-//     const unsubscribe = onSnapshot(q, (querySnapShot) => {
-//       querySnapShot.forEach((doc) => chats.push(doc.data()));
-//     });
-//     return chats;
-//   } catch (e) {
-//     console.error(e);
-//   }
-// };
+
+export const sendMessage = async (uid, room, msgData) => {
+  console.log(uid, room, msgData);
+  const date = new Date();
+  const newMsg = {
+    msg: msgData,
+    from: uid,
+    timestamp: date.getTime(),
+    date: `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`,
+  };
+  const docRef = doc(db, 'rooms', room);
+  await updateDoc(docRef, {
+    messages: arrayUnion(newMsg),
+  });
+};
+
 export const queryChats = async (uid) => {
   try {
     return query(
@@ -92,6 +95,22 @@ export const addChatRoomsListener = async (uid) => {
     console.error(e);
   }
 };
+
+// export const getChatRoomsWithListener = async (uid) => {
+//   try {
+//     const q = query(
+//       collection(db, 'rooms'),
+//       where('chatUsers', 'array-contains', uid)
+//     );
+//     const chats = [];
+//     const unsubscribe = onSnapshot(q, (querySnapShot) => {
+//       querySnapShot.forEach((doc) => chats.push(doc.data()));
+//     });
+//     return chats;
+//   } catch (e) {
+//     console.error(e);
+//   }
+// };
 
 /**
  * !this adds a subcollection, I am not longer going this route.
