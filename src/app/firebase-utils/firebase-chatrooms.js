@@ -12,6 +12,7 @@ import { db } from './firebase';
 export const createChatRoom = async (uids) => {
   try {
     const name = `${uids[0]}-${uids[1]}`;
+    const date = new Date();
     await setDoc(doc(db, 'rooms', name), {
       name,
       chatUsers: [...uids],
@@ -19,7 +20,8 @@ export const createChatRoom = async (uids) => {
         {
           msg: 'You both matched! Be the first to say something.',
           from: 'tinder-clone',
-          timestamp: new Date(),
+          timestamp: date.getTime(),
+          date: `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`,
         },
       ],
     });
@@ -58,6 +60,15 @@ export const getChatRooms = async (uid) => {
 //     console.error(e);
 //   }
 // };
+export const queryChats = async (uid) => {
+  try {
+    return query(
+      collection(db, 'rooms', where('chatUsers', 'array-contains', uid))
+    );
+  } catch (e) {
+    console.error(e);
+  }
+};
 export const addChatRoomsListener = async (uid) => {
   try {
     const q = query(
