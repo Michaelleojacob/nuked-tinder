@@ -8,6 +8,7 @@ import {
   onSnapshot,
   updateDoc,
   arrayUnion,
+  serverTimestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -18,6 +19,7 @@ export const createChatRoom = async (uids) => {
     await setDoc(doc(db, 'rooms', name), {
       name,
       chatUsers: [...uids],
+      lastUpdated: serverTimestamp(),
       messages: [
         {
           msg: 'You both matched! Be the first to say something.',
@@ -59,6 +61,7 @@ export const sendMessage = async (uid, room, msgData) => {
   };
   const docRef = doc(db, 'rooms', room);
   await updateDoc(docRef, {
+    lastUpdated: serverTimestamp(),
     messages: arrayUnion(newMsg),
   });
 };

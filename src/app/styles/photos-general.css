@@ -1,0 +1,7 @@
+.mainPhoto-preview {
+  height: 5rem;
+  width: 5rem;
+  display: flex;
+  flex: 1;
+  border-radius: 50%;
+}

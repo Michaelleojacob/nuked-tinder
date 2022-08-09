@@ -1,0 +1,18 @@
+.new-matches-container {
+  display: flex;
+}
+
+.new-match-card {
+  text-align: center;
+}
+.new-match-card > * {
+  pointer-events: none;
+}
+
+.new-match {
+  display: flex;
+  flex: 1;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 100%;
+}

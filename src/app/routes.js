@@ -2,14 +2,7 @@
 import { app, auth, db } from './firebase-utils/firebase';
 import App from './app';
 import SwipeArea from './components/swipeArea/swipeAreaMain';
-import {
-  HashRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-  useOutletContext,
-} from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import LandingPage from './components/landingPage';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
@@ -26,17 +19,15 @@ import Chatrooms from './components/chatrooms/chatrooms';
 import { testPhotos } from './firebase-utils/firebasePhotos';
 import { getChatRooms } from './firebase-utils/firebase-chatrooms';
 import { getUsers } from './firebase-utils/firebase-getRanUsers';
+import IndividualChatRoom from './components/chatrooms/chat';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
-import { updateChatArray } from './redux-store/userChats';
 // import { useMockHumans } from './utils/useMockHumans';
 
 const AppRoutes = () => {
   // useMockHumans();
   const [authState, setAuthState] = useState(isUserSignedIn());
   const dispatch = useDispatch();
-  const [testChats, setTestChats] = useState([]);
-  const [testlol, setTestLol] = useState('hello world');
-  const [count, setCount] = useState(0);
+  const [userChats, setUserChats] = useState([]);
 
   const handleLoggedInState = () => {
     dispatch(updateBasedOnAuth(isUserSignedIn()));
@@ -49,11 +40,10 @@ const AppRoutes = () => {
     const allInfo = await Promise.all([
       getUser(uid),
       testPhotos(uid),
-      getChatRooms(uid),
       getUsers(),
     ]);
     // console.log(allInfo);
-    const [data, photos, chats, swipeUsers] = allInfo;
+    const [data, photos, swipeUsers] = allInfo;
     dispatch(updateStateOnLogIn(data));
 
     const queryChats = query(
@@ -64,12 +54,12 @@ const AppRoutes = () => {
       querySnapShot.docChanges().forEach((change) => {
         if (change.type === 'added') {
           getChatRooms(uid)
-            .then((res) => setTestChats(res))
+            .then((res) => setUserChats(res))
             .catch((err) => console.error(err));
         }
         if (change.type === 'modified') {
           getChatRooms(uid)
-            .then((res) => setTestChats(res))
+            .then((res) => setUserChats(res))
             .catch((err) => console.error(err));
         }
       });
@@ -97,7 +87,11 @@ const AppRoutes = () => {
         <Route element={<PrivateWrapper authState={authState} />}>
           <Route path='/edit/:uid' element={<EditProfile />} />
           <Route path='/swipe' element={<SwipeArea />} />
-          <Route path='/rooms' element={<Chatrooms testChats={testChats} />} />
+          <Route path='/rooms' element={<Chatrooms userChats={userChats} />} />
+          <Route
+            path='/rooms/:roomId'
+            element={<IndividualChatRoom userChats={userChats} />}
+          />
         </Route>
         <Route path='/landing' element={<LandingPage />} />
         <Route path='/*' element={<App />} />

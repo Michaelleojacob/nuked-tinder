@@ -35,11 +35,12 @@ const SwipeArea = () => {
   const checkForMatch = async (otherPersonUid) => {
     const p = await getUser(otherPersonUid);
     const { likedUsers, uid } = p;
-    if (likedUsers.includes(userUid)) {
-      const lol = [uid, userUid].sort((a, b) => b - a);
-
-      createChatRoom(lol);
+    if (!likedUsers.includes(userUid)) {
+      return;
+    } else if (likedUsers.includes(userUid)) {
+      createChatRoom(`${uid}-${userUid}`);
     }
+    return;
   };
 
   const handleSwipeRight = useSwipeable({

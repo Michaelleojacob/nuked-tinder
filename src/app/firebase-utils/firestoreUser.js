@@ -12,9 +12,14 @@ import {
 import { savePhotoToBucket, deletePhotoFromBucket } from './firebasePhotos';
 
 export const getUser = async (uid) => {
-  const userRef = doc(db, 'users', uid);
-  const userDoc = await getDoc(userRef);
-  return userDoc.data();
+  try {
+    const userRef = doc(db, 'users', uid);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data();
+  } catch (e) {
+    console.error('failed in get user');
+    console.error(e);
+  }
 };
 
 export const getAllUsers = async () => {
